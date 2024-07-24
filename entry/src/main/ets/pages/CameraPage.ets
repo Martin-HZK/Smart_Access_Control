@@ -5,7 +5,7 @@ import fs from '@ohos.file.fs';
 import camera from '@ohos.multimedia.camera';
 import {BusinessError} from '@ohos.base';
 const context = getContext(this) as common.UIAbilityContext;
-
+const baseContext = getContext(this) as common.BaseContext
 @Entry
 @Component
 
@@ -406,14 +406,14 @@ struct CameraPage {
         XComponent({ id: 'xComponentId1', type: 'surface', controller: this.xComponentController })
           .height(300)
         Row() {
-          Button('打开摄像头')
-            .onClick(() => {
-              // 在调用前确保已经获得相机权限
-              this.getCameraImage();
-            })
+          // Button('打开摄像头')
+          //   .onClick(() => {
+          //     // 在调用前确保已经获得相机权限
+          //     this.getCameraImage();
+          //   })
 
           Button('拍照')
-            .onClick(() => this.cameraShootingCase(context, this.xComponentController.getXComponentSurfaceId()))
+            .onClick(() => this.cameraShootingCase(baseContext, this.xComponentController.getXComponentSurfaceId()))
         }
 
       }
