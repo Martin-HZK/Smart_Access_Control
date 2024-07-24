@@ -1,9 +1,9 @@
+import common from '@ohos.app.ability.common';
 import camera from '@ohos.multimedia.camera';
 import image from '@ohos.multimedia.image'
 import photoAccessHelper from '@ohos.file.photoAccessHelper';
 import fs from '@ohos.file.fs';
 import {BusinessError} from '@ohos.base';
-import common from '@ohos.app.ability.common';
 
 let context = getContext(this)
 
@@ -312,3 +312,7 @@ async function cameraShootingCase(baseContext:common.BaseContext,surfaceId:strin
   photoSession = undefined;
 
 }
+
+
+
+

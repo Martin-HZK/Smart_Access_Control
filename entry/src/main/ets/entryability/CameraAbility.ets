@@ -1,23 +1,45 @@
-import image from '@ohos.multimedia.image';
-import photoAccessHelper from '@ohos.file.photoAccessHelper';
-import {common, Want,Permissions, bundleManager, abilityAccessCtrl} from '@kit.AbilityKit'
-import fs from '@ohos.file.fs';
+import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+import window from '@ohos.window';
+import common from '@ohos.app.ability.common';
 import camera from '@ohos.multimedia.camera';
+import image from '@ohos.multimedia.image'
+import photoAccessHelper from '@ohos.file.photoAccessHelper';
+import fs from '@ohos.file.fs';
+import {hilog} from '@kit.PerformanceAnalysisKit'
 import {BusinessError} from '@ohos.base';
-const context = getContext(this) as common.UIAbilityContext;
+const TAG: string= '[EntryAbility]';
+const DOMAIN_NUMBER: number = 0xFF00;
+export default class CameraAbility extends UIAbility{
+  windowStage: window.WindowStage | undefined = undefined
 
-@Entry
-@Component
 
-struct CameraPage {
+  onWindowStageCreate(windowStage: window.WindowStage): void {
+    this.windowStage = windowStage
+    windowStage.loadContent('pages/CameraPage', (err, data) => {
+      console.log("Error: ${err.code}")
+    })
+  }
 
-  private xComponentController: XComponentController = new XComponentController();
+  onWindowStageDestroy(): void {
+    try {
+      if (this.windowStage) {
+        this.windowStage.off('windowStageEvent')
+      }
+    } catch (err) {
+      let code = (err as BusinessError).code
+      let message = (err as BusinessError).message
+      hilog.error(DOMAIN_NUMBER, TAG, 'Failed to destroy, the code is ${code} and the message is ${message}')
+    }
+  }
 
+  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam):void {
+    let context = this.context
+  }
 
 
   async savePicture(buffer:ArrayBuffer, img: image.Image): Promise<void> {
     // 相册管理模块，支持加入图片进入图库
-    // let context = getContext(this) as common.UIAbilityContext
+    let context = this.context
 
     let accessHelper: photoAccessHelper.PhotoAccessHelper = photoAccessHelper.getPhotoAccessHelper(context);
     let options: photoAccessHelper.CreateOptions = {
@@ -60,6 +82,7 @@ struct CameraPage {
 
     })
   }
+
 
   // 拍照事件
   async cameraShootingCase(baseContext:common.BaseContext,surfaceId:string): Promise<void> {
@@ -324,109 +347,4 @@ struct CameraPage {
 
 
 
-  async getCameraImage() {
-    let atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager()
-    let grantStatus: abilityAccessCtrl.GrantStatus = abilityAccessCtrl.GrantStatus.PERMISSION_DENIED
-    let tokenId: number = 0
-    try {
-      let bundleInfo: bundleManager.BundleInfo = await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
-      let appInfo: bundleManager.ApplicationInfo = bundleInfo.appInfo;
-      tokenId = appInfo.accessTokenId;
-    } catch (error) {
-      const err: BusinessError = error as BusinessError;
-      console.error(`Failed to get bundle info for self. Code is ${err.code}, message is ${err.message}`);
-    }
-
-    const permissions: Array<Permissions> = ['ohos.permission.CAMERA', 'ohos.permission.MICROPHONE', 'ohos.permission.WRITE_MEDIA', 'ohos.permission.READ_MEDIA', 'ohos.permission.MEDIA_LOCATION']
-
-
-    for (const permission of permissions) {
-
-        try {
-          grantStatus = await atManager.checkAccessToken(tokenId, permission);
-          console.log('This permission: ' + permission + ', status is'+ grantStatus)
-        } catch (error) {
-          const err: BusinessError = error as BusinessError;
-          console.error(`Failed to check access token. Code is ${err.code}, message is ${err.message}`);
-        }
-
-    }
-
-    // 1、使用系统相机框架camera模块获取物理摄像头信息。
-    let cameraManager = camera.getCameraManager(context);
-    let camerasInfo: Array<camera.CameraDevice> = cameraManager.getSupportedCameras();
-    console.log('The number of cameradevice is '+camerasInfo.length)
-
-
-    let cameraDevice: camera.CameraDevice = camerasInfo[0];
-    console.log("Position is:"+cameraDevice.cameraPosition+", Type: " + cameraDevice.cameraType);
-    console.log('Here!!')
-
-    // 检测相机状态
-    cameraManager.on('cameraStatus', (err: BusinessError, cameraStatusInfo: camera.CameraStatusInfo) => {
-      console.log(`camera : ${cameraStatusInfo.camera.cameraId}`);
-      console.log(`status : : ${cameraStatusInfo.status}`);
-
-    });
-
-    // 2、创建并启动物理摄像头输入流通道
-    // 设置为前置摄像头 camera.CameraPosition.CAMERA_POSITION_FRONT
-  console.log("END")
-    let cameraInput = cameraManager.createCameraInput(camera.CameraPosition.CAMERA_POSITION_FRONT, camera.CameraType.CAMERA_TYPE_WIDE_ANGLE);
-
-    await cameraInput.open();
-
-    // 3、拿到物理摄像头信息查询摄像头支持预览流支持的输出格式，结合XComponent提供的surfaceId创建预览输出通道
-    let outputCapability = cameraManager.getSupportedOutputCapability(cameraDevice, camera.SceneMode.NORMAL_PHOTO);
-    let previewProfile = outputCapability.previewProfiles[0];
-    let surfaceId = this.xComponentController.getXComponentSurfaceId();
-    let previewOutput = cameraManager.createPreviewOutput(previewProfile, surfaceId);
-    // 4、创建相机会话，在会话中添加摄像头输入流和预览输出流，然后启动会话，预览画面就会在XComponent组件上送显。
-    let captureSession = cameraManager.createSession(camera.SceneMode.NORMAL_PHOTO);
-    captureSession.beginConfig();
-    captureSession.addInput(cameraInput);
-    captureSession.addOutput(previewOutput);
-    captureSession.commitConfig()
-    captureSession.start();
-  }
-
-
-
-  @State title: string = 'Camera'
-  // xComponentContext: object | undefined = undefined;
-  // xComponentAttrs: XComponentAttrs = {
-  //   id: 'camera',
-  //   type: XComponentType.SURFACE,
-  //   libraryname: 'nativerender'
-  // }
-
-  build() {
-    Row() {
-      Column({ space: 20 }) {
-        XComponent({ id: 'xComponentId1', type: 'surface', controller: this.xComponentController })
-          .height(300)
-        Row() {
-          Button('打开摄像头')
-            .onClick(() => {
-              // 在调用前确保已经获得相机权限
-              this.getCameraImage();
-            })
-
-          Button('拍照')
-            .onClick(() => this.cameraShootingCase(context, this.xComponentController.getXComponentSurfaceId()))
-        }
-
-      }
-      .width('100%')
-    }
-    .height('100%')
-  }
-
-
-}
-
-interface XComponentAttrs {
-  id: string,
-  type: number,
-  libraryname: string
 }

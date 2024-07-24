@@ -1,3 +1,7 @@
+import router from '@ohos.router'
+import { BusinessError } from '@kit.BasicServicesKit';
+
+
 @Entry
 @Component
 struct Index {
@@ -21,6 +25,14 @@ struct Index {
             .fontWeight(FontWeight.Bold)
             .fontColor('#777777');
         }
+        .onClick(() => {
+          console.info('Success in clicking')
+          router.pushUrl({url: 'pages/CameraPage'}).then(() => {
+            console.info('Jump success')
+          }).catch((err:BusinessError)=>{
+            console.log('Error code ${err.code}, Error message: ${err.message}')
+          })
+        })
         .type(ButtonType.Capsule)
         .margin({ top: 20 })
         .backgroundColor('#0D9FFB')
