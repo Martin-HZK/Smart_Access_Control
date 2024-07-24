@@ -6,6 +6,8 @@ import photoAccessHelper from '@ohos.file.photoAccessHelper';
 import {common, Want,Permissions, bundleManager, abilityAccessCtrl} from '@kit.AbilityKit'
 import fs from '@ohos.file.fs';
 import camera from '@ohos.multimedia.camera';
+import router from '@ohos.router';
+
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
 @Entry
@@ -127,33 +129,51 @@ struct Index {
         }).width('100%').height(500)
       }.width('100%').margin({ top: 30 }).flexGrow(1)
 
-      Column() {
-        Text('拍照').fontSize(14).fontColor(Color.White).margin({ top: 16 })
-        Row()
-          .backgroundColor('#0A59F7')
-          .width(6)
-          .height(6)
-          .border({ radius: 3 })
-          .margin({ top: 6, bottom: 20 })
-        Row() {
-          Row().backgroundColor(Color.White).width(60).height(60).border({ radius: 30 })
+      Row() {
+        Column() {
+          Text('拍照').fontSize(14).fontColor(Color.White).margin({ top: 16 })
+          Row()
+            .backgroundColor('#0A59F7')
+            .width(6)
+            .height(6)
+            .border({ radius: 3 })
+            .margin({ top: 6, bottom: 20 })
+          Row() {
+            Row().backgroundColor(Color.White).width(60).height(60).border({ radius: 30 })
+          }
+          .onClick(async () => {
+            console.log('click')
+            await this.camera.takePicture()
+          })
+          .backgroundColor(Color.Black)
+          .width(76)
+          .height(76)
+          .border({ color: Color.White, width: 1, radius: 37 })
+          .justifyContent(FlexAlign.Center)
+          .alignItems(VerticalAlign.Center)
         }
-        .onClick(async () => {
-          console.log('click')
-          await this.camera.takePicture()
-        })
+        .width('100%')
+        .flexShrink(0)
+        .height(228)
         .backgroundColor(Color.Black)
-        .width(76)
-        .height(76)
-        .border({ color: Color.White, width: 1, radius: 37 })
-        .justifyContent(FlexAlign.Center)
-        .alignItems(VerticalAlign.Center)
-      }
-      .width('100%')
-      .flexShrink(0)
-      .height(228)
-      .backgroundColor(Color.Black)
-      .alignItems(HorizontalAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+
+        // Row() {
+        //   Button(){
+        //     Text('注册人脸')
+        //   }.onClick(() =>{
+        //       console.info('Success in clicking')
+        //       router.pushUrl({url: 'pages/FaceRegisterPage'}).then(() =>{
+        //         console.info('Jump success')
+        //       }).catch((err:BusinessError)=>{
+        //         console.log('Error code ${err.code}, Error message: ${err.message}')
+        //       }))
+        //   }
+        // }
+        }
+
+
+
     }.width('100%').height('100%').backgroundColor(Color.Black)
   }
 }

@@ -2,6 +2,7 @@
   "src": [
     "pages/Index",
     "pages/CameraPage",
-    "pages/TakePicPage"
+    "pages/TakePicPage",
+    "pages/FaceRegisterPage"
   ]
 }
