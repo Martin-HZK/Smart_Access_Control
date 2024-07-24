@@ -61,54 +61,45 @@
     ],
     "requestPermissions": [
       {
-        "name": "ohos.permission.CAMERA",
-        "reason": "$string:app_name",
-        "usedScene": {
-          "abilities": [
-            "FormAbility"
-          ],
-          "when": "inuse"
-        }
-      },
+        "name":
+        "ohos.permission.CAMERA", "usedScene":
       {
-        "name": "ohos.permission.MICROPHONE",
-        "reason": "$string:app_name",
-        "usedScene": {
-          "abilities": [
-            "FormAbility"
-          ],
-          "when": "inuse"
-        }
-      },
+        "abilities": [
+          "EntryAbility"       ],
+        "when":
+        "inuse"
+      }
+      ,
+        "reason":
+        "$string:app_name"
+      }
+    ,
       {
-        "name": "ohos.permission.WRITE_MEDIA",
-        "reason": "$string:app_name",
-        "usedScene": {
-          "abilities": [
-            "FormAbility"
-          ],
-          "when": "inuse"
-        }
-      },
+        "name":
+        "ohos.permission.READ_IMAGEVIDEO", "usedScene":
       {
-        "name": "ohos.permission.READ_MEDIA",
-        "reason": "$string:app_name",
-        "usedScene": {
-          "abilities": [
-            "FormAbility"
-          ],
-          "when": "inuse"
-        }
-      },
+        "abilities": [
+          "EntryAbility"       ],
+        "when":
+        "inuse"
+      }
+      ,
+        "reason":
+        "$string:app_name"
+      }
+    ,
       {
-        "name": "ohos.permission.MEDIA_LOCATION",
-        "reason": "$string:app_name",
-        "usedScene": {
-          "abilities": [
-            "FormAbility"
-          ],
-          "when": "inuse"
-        }
+        "name":
+        "ohos.permission.WRITE_IMAGEVIDEO", "usedScene":
+      {
+        "abilities": [
+          "EntryAbility"       ],
+        "when":
+        "inuse"
+      }
+      ,
+        "reason":
+        "$string:app_name"
       }
     ]
   }

@@ -1,6 +1,7 @@
 {
   "src": [
     "pages/Index",
-    "pages/CameraPage"
+    "pages/CameraPage",
+    "pages/TakePicPage"
   ]
 }
