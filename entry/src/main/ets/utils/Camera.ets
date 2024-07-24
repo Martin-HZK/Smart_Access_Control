@@ -30,14 +30,15 @@ export default class Camera {
 
 
     console.log('The length of preview profiles array is: ' + previewProfilesArray.length)
-    this.previewOutput = this.cameraManager!.createPreviewOutput(previewProfilesArray[5], surfaceId);
+    console.log('The length of photo profiles array is: ' + photoProfilesArray.length)
+    this.previewOutput = this.cameraManager!.createPreviewOutput(previewProfilesArray[0], surfaceId);
 
     let size: image.Size = {
       height: 2592, width: 1200
     };
 
     this.receiver = image.createImageReceiver(size, image.ImageFormat.JPEG, 8);
-    this.photoOutput = this.cameraManager!.createPhotoOutput(photoProfilesArray[5]);
+    this.photoOutput = this.cameraManager!.createPhotoOutput(photoProfilesArray[0]);
     this.photoOutput.on('photoAvailable', (errCode: BusinessError, photo: camera.Photo): void => {
       let imageObj = photo.main;
       imageObj.getComponent(image.ComponentType.JPEG, async (errCode: BusinessError, component: image.Component) => {
