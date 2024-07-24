@@ -18,15 +18,24 @@ export default class Camera {
     let cameraArray: Array<camera.CameraDevice> = this.cameraManager.getSupportedCameras();
     let cameraDevice = cameraArray[0];
     this.cameraInput = this.cameraManager.createCameraInput(cameraDevice);
+
     await this.cameraInput.open();
+
     let cameraOutputCap: camera.CameraOutputCapability =
       this.cameraManager!.getSupportedOutputCapability(cameraDevice, camera.SceneMode.NORMAL_PHOTO);
+
     let previewProfilesArray: Array<camera.Profile> = cameraOutputCap.previewProfiles;
     let photoProfilesArray: Array<camera.Profile> = cameraOutputCap.photoProfiles;
+    console.log('Initial start!!')
+
+
+    console.log('The length of preview profiles array is: ' + previewProfilesArray.length)
     this.previewOutput = this.cameraManager!.createPreviewOutput(previewProfilesArray[5], surfaceId);
+
     let size: image.Size = {
       height: 2592, width: 1200
     };
+
     this.receiver = image.createImageReceiver(size, image.ImageFormat.JPEG, 8);
     this.photoOutput = this.cameraManager!.createPhotoOutput(photoProfilesArray[5]);
     this.photoOutput.on('photoAvailable', (errCode: BusinessError, photo: camera.Photo): void => {
