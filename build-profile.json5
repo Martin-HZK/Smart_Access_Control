@@ -6,9 +6,9 @@
         "type": "HarmonyOS",
         "material": {
           "certpath": "C:\\Users\\Administrator\\.ohos\\config\\default_FaceRegNew_J36k0eAwxbRta7qWJ3mhCGKhVTQIk9m58w6l41MTHfY=.cer",
-          "storePassword": "0000001B9B028E35871B11AE5F203DCA3172C1F72B0FABA3CD1C65F9A070563655CF495922CAB97894F5C9",
+          "storePassword": "0000001BFA2C3EC633627FB70DCEAC1AC19ADEA48FB380A93952E0D3C203CA7BCEC363B745830DB0344A3D",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B10A9E33FB8F4FDE32DE51D62DA4CE468D1E14F690765CCA55F754971ED3BD2C081EBE10A84C69F",
+          "keyPassword": "0000001BB119ECF9C7DDCDAF97F5331B03971223ADEB66EE24D1C618018519D0C7034AA89500075A8AA4F3",
           "profile": "C:\\Users\\Administrator\\.ohos\\config\\default_FaceRegNew_J36k0eAwxbRta7qWJ3mhCGKhVTQIk9m58w6l41MTHfY=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:\\Users\\Administrator\\.ohos\\config\\default_FaceRegNew_J36k0eAwxbRta7qWJ3mhCGKhVTQIk9m58w6l41MTHfY=.p12"
@@ -20,7 +20,7 @@
         "name": "default",
         "signingConfig": "default",
         "compatibleSdkVersion": "4.1.0(11)",
-        "runtimeOS": "HarmonyOS",
+        "runtimeOS": "HarmonyOS"
       }
     ],
     "buildModeSet": [

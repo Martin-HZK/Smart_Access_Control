@@ -26,7 +26,6 @@ export default class Camera {
 
     let previewProfilesArray: Array<camera.Profile> = cameraOutputCap.previewProfiles;
     let photoProfilesArray: Array<camera.Profile> = cameraOutputCap.photoProfiles;
-    console.log('Initial start!!')
 
 
     console.log('The length of preview profiles array is: ' + previewProfilesArray.length)

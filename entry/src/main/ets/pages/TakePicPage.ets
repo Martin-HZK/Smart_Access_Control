@@ -40,7 +40,7 @@ struct Index {
     this.XComponentController.setXComponentSurfaceSize({ surfaceWidth: 240, surfaceHeight: 320 });
     this.surfaceId = this.XComponentController.getXComponentSurfaceId();
 
-    console.log('Initializing camera with surfaceId:', this.surfaceId);
+    // console.log('Initializing camera with surfaceId:', this.surfaceId);
 
     await this.camera.initCamera(this.surfaceId);
     console.log('Camera initialized!!!!')
