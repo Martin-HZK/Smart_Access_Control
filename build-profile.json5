@@ -3,24 +3,27 @@
     "signingConfigs": [
       {
         "name": "default",
-        "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\Administrator\\.ohos\\config\\default_FaceRegNew_J36k0eAwxbRta7qWJ3mhCGKhVTQIk9m58w6l41MTHfY=.cer",
-          "storePassword": "0000001BFA2C3EC633627FB70DCEAC1AC19ADEA48FB380A93952E0D3C203CA7BCEC363B745830DB0344A3D",
+          "certpath": "C:/Users/Administrator/.ohos/config/openharmony/default_aaa_VpEuhrBdxy0cFLlCM1rwQfZPDCtmms40twzA3COtuhQ=.cer",
+          "storePassword": "0000001B287C0CE303274CACF48F4B406E7D57AB739F202BD3661AA413956C89B2FD0ACB6273F69ADC9367",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BB119ECF9C7DDCDAF97F5331B03971223ADEB66EE24D1C618018519D0C7034AA89500075A8AA4F3",
-          "profile": "C:\\Users\\Administrator\\.ohos\\config\\default_FaceRegNew_J36k0eAwxbRta7qWJ3mhCGKhVTQIk9m58w6l41MTHfY=.p7b",
+          "keyPassword": "0000001B410F21A0C0640DD01BAC2D6E53A099E7E9C2E80F884108F4AB68006B742307C1C5D5EEFEFF76B8",
+          "profile": "C:/Users/Administrator/.ohos/config/openharmony/default_aaa_VpEuhrBdxy0cFLlCM1rwQfZPDCtmms40twzA3COtuhQ=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\Administrator\\.ohos\\config\\default_FaceRegNew_J36k0eAwxbRta7qWJ3mhCGKhVTQIk9m58w6l41MTHfY=.p12"
+          "storeFile": "C:/Users/Administrator/.ohos/config/openharmony/default_aaa_VpEuhrBdxy0cFLlCM1rwQfZPDCtmms40twzA3COtuhQ=.p12"
         }
       }
     ],
     "products": [
       {
+        "compileSdkVersion": 11,
+        "compatibleSdkVersion": 11,
         "name": "default",
         "signingConfig": "default",
-        "compatibleSdkVersion": "4.1.0(11)",
-        "runtimeOS": "HarmonyOS"
+        "targetSdkVersion": 11,
+        //指定OpenHarmony应用/服务目标版本。若没有设置，默认为compatibleSdkVersion
+        "runtimeOS": "OpenHarmony",
+        //指定为OpenHarmony
       }
     ],
     "buildModeSet": [

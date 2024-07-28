@@ -1,6 +1,10 @@
 import image from '@ohos.multimedia.image';
 import photoAccessHelper from '@ohos.file.photoAccessHelper';
-import {common, Want,Permissions, bundleManager, abilityAccessCtrl} from '@kit.AbilityKit'
+import {Permissions} from '@ohos.abilityAccessCtrl'
+import common from '@ohos.app.ability.common';
+import Want from '@ohos.app.ability.Want';
+import bundleManager from '@ohos.bundle.bundleManager';
+import abilityAccessCtrl from '@ohos.abilityAccessCtrl';
 import fs from '@ohos.file.fs';
 import camera from '@ohos.multimedia.camera';
 import {BusinessError} from '@ohos.base';

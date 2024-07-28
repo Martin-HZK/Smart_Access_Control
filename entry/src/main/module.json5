@@ -5,9 +5,8 @@
     "description": "$string:module_desc",
     "mainElement": "EntryAbility",
     "deviceTypes": [
-      "phone",
-      "tablet",
-      "2in1"
+      "default",
+      "tablet"
     ],
     "deliveryWithInstall": true,
     "installationFree": false,
@@ -17,7 +16,7 @@
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ets",
         "description": "$string:EntryAbility_desc",
-        "icon": "$media:layered_image",
+        "icon": "$media:icon",
         "label": "$string:EntryAbility_label",
         "startWindowIcon": "$media:startIcon",
         "startWindowBackground": "$color:start_window_background",
@@ -32,74 +31,6 @@
             ]
           }
         ]
-      },
-      {
-        "name":  "CameraAbility",
-        "srcEntry": "./ets/entryability/CameraAbility.ets",
-        "description": "$string:EntryAbility_desc",
-        "icon": "$media:layered_image",
-        "label": "$string:EntryAbility_label",
-        "startWindowIcon": "$media:startIcon",
-        "startWindowBackground": "$color:start_window_background",
-        "exported": true,
-
-      }
-    ],
-    "extensionAbilities": [
-      {
-        "name": "EntryBackupAbility",
-        "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
-        "type": "backup",
-        "exported": false,
-        "metadata": [
-          {
-            "name": "ohos.extension.backup",
-            "resource": "$profile:backup_config"
-          }
-        ],
-      }
-    ],
-    "requestPermissions": [
-      {
-        "name":
-        "ohos.permission.CAMERA", "usedScene":
-      {
-        "abilities": [
-          "EntryAbility"       ],
-        "when":
-        "inuse"
-      }
-      ,
-        "reason":
-        "$string:app_name"
-      }
-    ,
-      {
-        "name":
-        "ohos.permission.READ_IMAGEVIDEO", "usedScene":
-      {
-        "abilities": [
-          "EntryAbility"       ],
-        "when":
-        "inuse"
-      }
-      ,
-        "reason":
-        "$string:app_name"
-      }
-    ,
-      {
-        "name":
-        "ohos.permission.WRITE_IMAGEVIDEO", "usedScene":
-      {
-        "abilities": [
-          "EntryAbility"       ],
-        "when":
-        "inuse"
-      }
-      ,
-        "reason":
-        "$string:app_name"
       }
     ]
   }

@@ -1,11 +1,13 @@
-import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+import UIAbility from '@ohos.app.ability.UIAbility'
+import AbilityConstant from '@ohos.app.ability.AbilityConstant';
+import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
 import common from '@ohos.app.ability.common';
 import camera from '@ohos.multimedia.camera';
 import image from '@ohos.multimedia.image'
 import photoAccessHelper from '@ohos.file.photoAccessHelper';
 import fs from '@ohos.file.fs';
-import {hilog} from '@kit.PerformanceAnalysisKit'
+import hilog from '@ohos.hilog';
 import {BusinessError} from '@ohos.base';
 const TAG: string= '[EntryAbility]';
 const DOMAIN_NUMBER: number = 0xFF00;

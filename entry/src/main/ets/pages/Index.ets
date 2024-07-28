@@ -1,15 +1,22 @@
 import router from '@ohos.router'
-import { BusinessError } from '@kit.BasicServicesKit';
-
+import {BusinessError} from '@ohos.base'
+import testNapi from 'libentry.so'
 
 @Entry
 @Component
 struct Index {
   @State message: string = 'Hello World';
-
+@State testString: string = testNapi.getHelloString()
   build() {
     Row(){
       Column() {
+        Text(this.testString)
+          .fontSize(100)
+          .fontWeight(FontWeight.Normal)
+          .alignRules({
+            center: { anchor: '__container__', align: VerticalAlign.Center },
+            middle: { anchor: '__container__', align: HorizontalAlign.Center }
+          })
         Text(this.message)
           .id('HelloWorld')
           .fontSize(50)

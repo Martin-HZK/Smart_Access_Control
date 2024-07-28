@@ -1,9 +1,10 @@
-import { photoAccessHelper } from '@kit.MediaLibraryKit';
-import { fileIo } from '@kit.CoreFileKit';
-import { BusinessError } from '@kit.BasicServicesKit';
-import { camera } from '@kit.CameraKit';
-import { common } from '@kit.AbilityKit';
-import { image } from '@kit.ImageKit';
+import fileIo from '@ohos.file.fs';
+import photoAccessHelper from '@ohos.file.photoAccessHelper';
+import {BusinessError} from '@ohos.base'
+import image from '@ohos.multimedia.image';
+import common from '@ohos.app.ability.common';
+import camera from '@ohos.multimedia.camera';
+
 
 export default class Camera {
   private cameraManager?: camera.CameraManager
