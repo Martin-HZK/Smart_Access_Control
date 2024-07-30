@@ -1,2 +1,3 @@
 export const add: (a: number, b: number) => number;
-export const getString: ()=>string;
+export const getHelloString: ()=>string;
+// export const UriToPath:(a: string) => string;

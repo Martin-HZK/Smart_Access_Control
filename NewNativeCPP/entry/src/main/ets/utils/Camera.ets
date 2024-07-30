@@ -6,7 +6,6 @@ import { BusinessError } from '@ohos.base';
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
 import image from '@ohos.multimedia.image';
-
 export default class Camera {
   private cameraManager?: camera.CameraManager
   private cameraInput?: camera.CameraInput
@@ -68,6 +67,7 @@ export default class Camera {
     this.photoOutput!.capture();
   }
 
+
   async savePicture(buffer: ArrayBuffer): Promise<void> {
     let photoHelper: photoAccessHelper.PhotoAccessHelper =
       photoAccessHelper.getPhotoAccessHelper(getContext(this) as common.UIAbilityContext);
@@ -75,7 +75,8 @@ export default class Camera {
       title: Date.now().toString()
     };
     let photoUri: string = await photoHelper.createAsset(photoAccessHelper.PhotoType.IMAGE, 'jpg', options);
-    console.info(photoUri);
+    // console.log('hi this is phone uri')
+    console.info('hi this is uri'+photoUri);
 
     //createAsset的调用需要ohos.permission.READ_IMAGEVIDEO和ohos.permission.WRITE_IMAGEVIDEO的权限
     // let file: fileIo.File = fileIo.openSync(photoUri, fileIo.OpenMode.READ_WRITE | fileIo.OpenMode.CREATE);
