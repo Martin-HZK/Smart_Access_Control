@@ -6,6 +6,7 @@ import { BusinessError } from '@ohos.base';
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
 import image from '@ohos.multimedia.image';
+
 export default class Camera {
   private cameraManager?: camera.CameraManager
   private cameraInput?: camera.CameraInput
@@ -69,22 +70,34 @@ export default class Camera {
 
 
   async savePicture(buffer: ArrayBuffer): Promise<void> {
-    let photoHelper: photoAccessHelper.PhotoAccessHelper =
-      photoAccessHelper.getPhotoAccessHelper(getContext(this) as common.UIAbilityContext);
-    let options: photoAccessHelper.CreateOptions = {
-      title: Date.now().toString()
-    };
-    let photoUri: string = await photoHelper.createAsset(photoAccessHelper.PhotoType.IMAGE, 'jpg', options);
-    // console.log('hi this is phone uri')
-    console.info('hi this is uri'+photoUri);
+    // let photoHelper: photoAccessHelper.PhotoAccessHelper =
+    //   photoAccessHelper.getPhotoAccessHelper(getContext(this) as common.UIAbilityContext);
+    // let options: photoAccessHelper.CreateOptions = {
+    //   title: Date.now().toString()
+    // };
+    // let photoUri: string = await photoHelper.createAsset(photoAccessHelper.PhotoType.IMAGE, 'jpg', options);
+    // // console.log('hi this is phone uri')
+    // console.info('hi this is uri'+photoUri);
+    //
+    // //createAsset的调用需要ohos.permission.READ_IMAGEVIDEO和ohos.permission.WRITE_IMAGEVIDEO的权限
+    // // let file: fileIo.File = fileIo.openSync(photoUri, fileIo.OpenMode.READ_WRITE | fileIo.OpenMode.CREATE);
+    // // await fileIo.write(file.fd, buffer);
+    // // fileIo.closeSync(file);
+    // let file = fs.openSync(photoUri, fs.OpenMode.READ_WRITE|fs.OpenMode.CREATE)
+    // await fs.write(file.fd, buffer)
+    // fs.closeSync(file)
 
-    //createAsset的调用需要ohos.permission.READ_IMAGEVIDEO和ohos.permission.WRITE_IMAGEVIDEO的权限
-    // let file: fileIo.File = fileIo.openSync(photoUri, fileIo.OpenMode.READ_WRITE | fileIo.OpenMode.CREATE);
-    // await fileIo.write(file.fd, buffer);
-    // fileIo.closeSync(file);
-    let file = fs.openSync(photoUri, fs.OpenMode.READ_WRITE|fs.OpenMode.CREATE)
-    await fs.write(file.fd, buffer)
-    fs.closeSync(file)
+
+    try {
+      let file = fs.openSync(getContext(this).filesDir+"/tmp1.png",fs.OpenMode.READ_WRITE|fs.OpenMode.CREATE)
+      console.log("OpenSync successfully, fd: ${file.fd}")
+      await fs.writeSync(file.fd, buffer)
+      console.log("Write successfully")
+      fs.close(file.fd)
+    } catch(err) {
+      console.error("Error here")
+    }
+
   }
 
   async releaseCamera(): Promise<void> {
@@ -102,4 +115,11 @@ export default class Camera {
       this.photoSession = undefined;
     }
   }
+
+  // async transferUri(uri: string): Promise<string> {
+  //
+  // }
+
+
+
 }

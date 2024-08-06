@@ -5,6 +5,7 @@ import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
 import exlib from 'libentry.so'
+// import SeetafaceApi from '@ohos.SeetafaceApi';
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
 @Entry
@@ -34,18 +35,18 @@ struct Index {
           .onClick(() => {
             hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
           })
-        Text(this.exLine)
-          .onAppear(()=>{
-            let cameraManager: camera.CameraManager | undefined = undefined;
-            try {
-              cameraManager = camera.getCameraManager(context);
-            } catch (error) {
-              let err = error as BusinessError;
-              console.error(`The getCameraManager call failed. error code: ${err.code}`);
-            }
-
-            console.log('the number is: ' + this.getSupportedCameras(cameraManager))
-          })
+        // Text(this.exLine)
+        //   .onAppear(()=>{
+        //     let cameraManager: camera.CameraManager | undefined = undefined;
+        //     try {
+        //       cameraManager = camera.getCameraManager(context);
+        //     } catch (error) {
+        //       let err = error as BusinessError;
+        //       console.error(`The getCameraManager call failed. error code: ${err.code}`);
+        //     }
+        //
+        //     console.log('the number is: ' + this.getSupportedCameras(cameraManager))
+        //   })
         Button() {
           Text('Register')
             .fontSize(30)

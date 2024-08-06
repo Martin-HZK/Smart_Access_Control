@@ -38,5 +38,7 @@ export default class CameraAbility extends UIAbility {
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     let context = this.context
+
   }
+
 }
