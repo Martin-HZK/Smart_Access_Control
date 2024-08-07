@@ -33,35 +33,35 @@
         ]
       }
     ],
-    "requestPermissions":[
+    "requestPermissions": [
       {
-        "name" : "ohos.permission.CAMERA",
+        "name": "ohos.permission.CAMERA",
         "reason": "$string:app_name",
         "usedScene": {
           "abilities": [
             "TakePicAbility"
           ],
-          "when":"inuse"
+          "when": "inuse"
         }
       },
       {
-        "name" : "ohos.permission.READ_IMAGEVIDEO",
+        "name": "ohos.permission.READ_IMAGEVIDEO",
         "reason": "$string:app_name",
         "usedScene": {
           "abilities": [
             "TakePicAbility"
           ],
-          "when":"always"
+          "when": "always"
         }
       },
       {
-        "name" : "ohos.permission.WRITE_IMAGEVIDEO",
+        "name": "ohos.permission.WRITE_IMAGEVIDEO",
         "reason": "$string:app_name",
         "usedScene": {
           "abilities": [
             "TakePicAbility"
           ],
-          "when":"always"
+          "when": "always"
         }
       }
     ]
