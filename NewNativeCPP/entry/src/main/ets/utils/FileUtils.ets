@@ -1,5 +1,6 @@
 import fs, {Filter, ListFileOptions} from "@ohos.file.fs";
 import {BusinessError} from '@ohos.base'
+
 const listFileOptions: ListFileOptions = {
   recursion:false,
   listNum: 0,
@@ -30,4 +31,13 @@ export default class FileUtils {
 
     return filenames;
   }
+
+  /**
+   * Delete the image after we finish register/recognize
+   * @param path
+   */
+  deleteTmpFile(path:string):void {
+    fs.unlinkSync(path)
+  }
+
 }
