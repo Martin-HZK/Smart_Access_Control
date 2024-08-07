@@ -98,7 +98,7 @@ struct Index {
               // }
 
               router.pushUrl({
-                url: 'pages/FaceRecognizePage',
+                url: 'pages/FaceRegisterPage',
               }).then(() =>{
                 console.info('Jump success')
               }).catch((err:BusinessError)=>{

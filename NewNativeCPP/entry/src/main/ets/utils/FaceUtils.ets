@@ -1,6 +1,6 @@
 import SeetafaceApi from '@ohos.SeetafaceApi';
 
-export default class SeetafaceUtils {
+export default class FaceUtils {
 
   // Encapsulate FaceRegister functionality
   async faceRegister(facePath: string):Promise<number> {
