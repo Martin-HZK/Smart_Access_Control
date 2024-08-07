@@ -87,25 +87,26 @@ struct Index {
             .fontWeight(FontWeight.Normal)
             .stateEffect(true)
             .onClick(()=>{
-              let storagePaths : string[] = this.fileUtils.getTmpFilesInDirectory(getContext(this).filesDir)
 
-              if(storagePaths.length == 0) {
-                // Afterwards
-                console.log("NULL path")
-              } else {
-                console.log("This is the storage path: "+storagePaths[0])
-              }
+`              // let storagePaths : string[] = this.fileUtils.getTmpFilesInDirectory(getContext(this).filesDir)
+`              //
+              // if(storagePaths.length == 0) {
+              //   // Afterwards
+              //   console.log("NULL path")
+              // } else {
+              //   console.log("This is the storage path: "+storagePaths[0])
+              // }
 
-              // router.pushUrl({
-              //   url: 'pages/FaceRecognize',
-              //   // params: {
-              //   //   src:imgPath
-              //   // }
-              // }).then(() =>{
-              //   console.info('Jump success')
-              // }).catch((err:BusinessError)=>{
-              //   console.log('Error code ${err.code}, Error message: ${err.message}')
-              // })
+              router.pushUrl({
+                url: 'pages/FaceRecognizePage',
+                // params: {
+                //   src:imgPath
+                // }
+              }).then(() =>{
+                console.info('Jump success')
+              }).catch((err:BusinessError)=>{
+                console.log('Error code ${err.code}, Error message: ${err.message}')
+              })
             })
         }
         .margin(10)
