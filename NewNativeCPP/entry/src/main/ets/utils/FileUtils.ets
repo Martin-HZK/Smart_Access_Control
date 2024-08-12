@@ -9,6 +9,7 @@ const listFileOptions: ListFileOptions = {
     displayName: ["tmp*"]
   }
 }
+
 export default class FileUtils {
   // We cannot use async methods as we always need to find the file first
   public getTmpFilesInDirectory(directory: string): string[] {
@@ -39,5 +40,4 @@ export default class FileUtils {
   deleteTmpFile(path:string):void {
     fs.unlinkSync(path)
   }
-
 }

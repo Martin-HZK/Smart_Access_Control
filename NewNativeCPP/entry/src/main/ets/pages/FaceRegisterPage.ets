@@ -26,9 +26,13 @@ struct FaceRegisterPage {
               console.log("This is the storage path: "+imgPath)
 
               // call face register function
+              try {
+                let retNum = await this.faceUtils.faceRegister(imgPath)
+                console.log("The return number of face register is: " + retNum)
+              } catch (err) {
+                console.log("Error registering faces: " + err)
+              }
 
-              let retNum = await this.faceUtils.faceRegister(imgPath)
-              console.log("The return number of face register is: " + retNum)
 
               this.fileUtils.deleteTmpFile(imgPath)
               console.log("Register finished")
