@@ -19,8 +19,9 @@ export default class FaceUtils {
    * Load the face database to the memory
    * The file is saved in the sandbox 'fileDir': data/storage/el2/base/haps/entry/files/
    */
-  loadFaceDB() {
-    let fileRootDir = getContext(this).filesDir
+  loadFaceDB(fileRootDir:string) {
+    console.log("The root dir is: " + fileRootDir)
+
     let fdbDir = fileRootDir + '/Seeta.fdb'
     // only check if the file dir exists
     try {
@@ -44,8 +45,8 @@ export default class FaceUtils {
    * Load the face database to the memory
    * The file is saved in the sandbox 'fileDir': data/storage/el2/base/haps/entry/files/
    */
-  saveFaceDB() {
-    let fileRootDir = getContext(this).filesDir
+  saveFaceDB(fileRootDir:string) {
+    // let fileRootDir = getContext(this).filesDir
     let fdbDir = fileRootDir + '/Seeta.fdb'
     // only check if the file dir exists
 
