@@ -12,26 +12,26 @@ export default class EntryAbility extends UIAbility {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
     // let ctx = getContext(this) as common.UIAbilityContext
     // let rootDir = ctx.filesDir
-    let ctx = this.context
-    let rootDir = ctx.filesDir
-    try {
-      this.faceutils.loadFaceDB(rootDir)
-      console.log("[SUCCESS] Face database loaded successfully")
-    } catch (err) {
-      console.log("Fail to load the face FDB: " + err)
-    }
+    // let ctx = this.context
+    // let rootDir = ctx.filesDir
+    // try {
+    //   this.faceutils.loadFaceDB(rootDir)
+    //   console.log("[SUCCESS] Face database loaded successfully")
+    // } catch (err) {
+    //   console.log("Fail to load the face FDB: " + err)
+    // }
   }
 
   onDestroy(): void {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
-    let ctx = this.context
-    let rootDir = ctx.filesDir
-    try {
-      this.faceutils.saveFaceDB(rootDir)
-      console.log("[SUCCESS] Face database loaded successfully")
-    } catch (err) {
-      console.log("Fail to load the face FDB: " + err)
-    }
+    // let ctx = this.context
+    // let rootDir = ctx.filesDir
+    // try {
+    //   this.faceutils.saveFaceDB(rootDir)
+    //   console.log("[SUCCESS] Face database loaded successfully")
+    // } catch (err) {
+    //   console.log("Fail to load the face FDB: " + err)
+    // }
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
