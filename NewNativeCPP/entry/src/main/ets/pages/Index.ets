@@ -5,14 +5,18 @@ import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
 import exlib from 'libentry.so'
-// import SeetafaceApi from '@ohos.SeetafaceApi';
+import TestSeeta from 'libseeta.so'
+
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
+
 @Entry
 @Component
 struct Index {
   @State message: string = 'Hello World';
   @State exLine: string = exlib.getHelloString();
+  @State testSeetaNum: number = TestSeeta.seetaTest();
+
 
   getSupportedCameras(cameraManager: camera.CameraManager): number {
     let cameras: Array<camera.CameraDevice> = [];
@@ -33,8 +37,10 @@ struct Index {
           .fontSize(50)
           .fontWeight(FontWeight.Bold)
           .onClick(() => {
-            hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
+            // hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
+            console.log("The number of Seeta test is: " + this.testSeetaNum)
           })
+
         // Text(this.exLine)
         //   .onAppear(()=>{
         //     let cameraManager: camera.CameraManager | undefined = undefined;

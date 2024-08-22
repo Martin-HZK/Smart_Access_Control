@@ -5,13 +5,12 @@
       "path": "./src/main/cpp/CMakeLists.txt",
       "arguments": "",
       "cppFlags": "",
-      "abiFilters": ["armeabi-v7a"]
     }
   },
   "targets": [
     {
       "name": "default",
-      "runtimeOS": "OpenHarmony"
+      "runtimeOS": "HarmonyOS"
     },
     {
       "name": "ohosTest",

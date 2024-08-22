@@ -27,16 +27,20 @@ export default class FaceUtils {
     try {
       if (fs.accessSync(fdbDir)) {
         // Load
-        seetafaceapi.Load(fdbDir)
+        console.log("Before load")
+        let ret: boolean = seetafaceapi.LoadFDB(fdbDir)
+        console.log('This is the return value: ' + ret)
 
       } else {
         this.createDBFileHelper(fdbDir)
         // Load
-        seetafaceapi.Load(fdbDir)
+        console.log("Before load")
+        let ret: boolean = seetafaceapi.LoadFDB(fdbDir)
+        console.log('This is the return value: ' + ret)
       }
       console.log('File loaded into the runtime memory')
     } catch (err) {
-      console.log("[ERR] Error loading the db file")
+      console.log("[ERR] Error loading the db file: " + err)
     }
 
   }
@@ -52,12 +56,12 @@ export default class FaceUtils {
 
     if (fs.accessSync(fdbDir)) {
       // Load
-      seetafaceapi.Save(fdbDir)
+      seetafaceapi.SaveFDB(fdbDir)
 
     } else {
       this.createDBFileHelper(fdbDir)
       // Load
-      seetafaceapi.Save(fdbDir)
+      seetafaceapi.SaveFDB(fdbDir)
     }
   }
 
