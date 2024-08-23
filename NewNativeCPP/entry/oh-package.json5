@@ -7,8 +7,7 @@
   "license": "",
   "dependencies": {
     "libentry.so": "file:./src/main/cpp/types/libentry",
-    "libseeta.so": "file:./src/main/cpp/types/libseeta",
-//    "libseeta2.so": "file:./src/main/cpp/types/libseeta2"
+    "libseeta.so": "file:./src/main/cpp/types/libseeta"
 //    "@types/libseetafaceapi.so": "file:./src/main/cpp/types/libseeta"
   }
 }

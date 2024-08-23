@@ -1,6 +1,0 @@
-{
-  "name": "libseeta2.so",
-  "types": "./seeta2.d.ts",
-  "version": "",
-  "description": "This is the lib so files of lib seetaface2"
-}

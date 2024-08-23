@@ -9,16 +9,16 @@ project(SeetaFace)
 
 # Create uninstall files
 CONFIGURE_FILE(
-    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+    "${CMAKE_SOURCE_DIR}/thirdparty/seetaface2/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_BINARY_DIR}/thirdparty/seetaface2/cmake_uninstall.cmake"
     IMMEDIATE @ONLY)
 # Create unistall target
 ADD_CUSTOM_TARGET(uninstall
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
+    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/thirdparty/seetaface2/cmake_uninstall.cmake")
 
 # Set version
 # Find Git Version Patch
-IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+IF(EXISTS "${CMAKE_SOURCE_DIR}/thirdparty/seetaface2/.git")
     if(NOT GIT)
         SET(GIT $ENV{GIT})
     endif()
@@ -151,7 +151,7 @@ if(BUILD_ASSESSOR)
 endif(BUILD_ASSESSOR)
 option(BUILD_EXAMPLE "Set to ON to build example" ON)
 if(BUILD_EXAMPLE)
-    add_subdirectory(example)
+#    add_subdirectory(example)
 endif(BUILD_EXAMPLE)
 
 # Install configure file

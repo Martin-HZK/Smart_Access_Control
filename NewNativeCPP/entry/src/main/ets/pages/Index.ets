@@ -5,7 +5,7 @@ import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
 import exlib from 'libentry.so'
-import TestSeeta from 'libseeta.so'
+// import TestSeeta from 'libseeta.so'
 
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
@@ -15,7 +15,7 @@ const baseContext = getContext(this) as common.BaseContext
 struct Index {
   @State message: string = 'Hello World';
   @State exLine: string = exlib.getHelloString();
-  @State testSeetaNum: number = TestSeeta.seetaTest();
+  // @State testSeetaNum: number = TestSeeta.seetaTest();
 
 
   getSupportedCameras(cameraManager: camera.CameraManager): number {
@@ -38,7 +38,7 @@ struct Index {
           .fontWeight(FontWeight.Bold)
           .onClick(() => {
             // hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
-            console.log("The number of Seeta test is: " + this.testSeetaNum)
+            // console.log("The number of Seeta test is: " + this.testSeetaNum)
           })
 
         // Text(this.exLine)

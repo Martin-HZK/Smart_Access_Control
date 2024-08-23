@@ -1,5 +1,24 @@
 #include <iostream>
 #include "napi/native_api.h"
+#include <dlfcn.h>
+#include "Struct_cv.h"
+#include "seeta/FaceDatabase.h"
+#include "seeta/FaceDetector.h"
+#include "seeta/FaceLandmarker.h"
+#include "seeta/FaceRecognizer.h"
+#include "seeta/FaceTracker.h"
+#include "seeta/QualityAssessor.h"
+#include <array>
+#include <map>
+
+using namespace std;
+using namespace cv;
+
+// set the running platform
+seeta::ModelSetting::Device device = seeta::ModelSetting::CPU;
+int id = 0;
+
+
 //
 // int seetaTest() {
 //     return 10086;
