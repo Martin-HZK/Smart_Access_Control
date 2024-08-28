@@ -10,9 +10,7 @@
 #include "seeta/QualityAssessor.h"
 #include <array>
 #include <map>
-#include "opencv2/imgcodecs.hpp"
-#include "opencv2/imgproc.hpp"
-#include "opencv2/highgui.hpp"
+
 
 #include "hilog_wrapper.h"
 
