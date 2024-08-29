@@ -4,7 +4,7 @@ import UIAbility from '@ohos.app.ability.UIAbility';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
 import FaceUtils from '../utils/FaceUtils'
-import common from '@ohos.app.ability.common';
+import {seetaTest} from "libseeta.so"
 export default class EntryAbility extends UIAbility {
   faceutils:FaceUtils = new FaceUtils();
 
@@ -14,6 +14,7 @@ export default class EntryAbility extends UIAbility {
     // let rootDir = ctx.filesDir
     let ctx = this.context
     let rootDir = ctx.filesDir
+    console.log("the seetatest number is:" + seetaTest())
     console.log("this is the context root dir: " + rootDir)
     try {
       this.faceutils.loadFaceDB(rootDir)

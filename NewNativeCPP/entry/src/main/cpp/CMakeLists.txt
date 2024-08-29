@@ -43,52 +43,25 @@ target_link_libraries(entry PUBLIC
     libhilog_ndk.z.so
     )
 
-
-# 指定库的查找路径
-set(OpenCV_LIB_PATH ${NATIVERENDER_ROOT_PATH}/../../../libs/${OHOS_ARCH}/opencv/org)
-
-# 查找 opencv_core 库
-find_library(OPENCV_CORE_LIB NAMES opencv_core PATHS ${OpenCV_LIB_PATH})
-
-# 查找 opencv_imgcodecs 库
-find_library(OPENCV_IMGCODECS_LIB NAMES opencv_imgcodecs PATHS ${OpenCV_LIB_PATH})
-find_library(OPENCV_CORE_LIB NAMES opencv_core PATHS ${OpenCV_LIB_PATH})
-find_library(OPENCV_IMGPROC_LIB NAMES opencv_imgproc PATHS ${OpenCV_LIB_PATH})
-find_library(OPENCV_OBJDETECT_LIB NAMES opencv_objdetect PATHS ${OpenCV_LIB_PATH})
-
-
 target_link_libraries(seeta PUBLIC libace_napi.z.so
                                     libace_ndk.z.so
                                     libhilog_ndk.z.so
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libc++_shared.so
 
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_core.so.4.8.0
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_core.so.408
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_core.so
-
-                                   #${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_objdetect.so.408
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_features2d.so.4.8.0
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_features2d.so.408
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_features2d.so
-
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_flann.so.4.8.0
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_flann.so.408
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_flann.so
-
-
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_imgproc.so.4.8.0
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_imgproc.so.408
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_flann.so
-
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_calib3d.so.4.8.0
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_calib3d.so.408
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_flann.so
-
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_imgcodecs.so.4.8.0
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_imgcodecs.so.408
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/${OHOS_ARCH}/opencv/org/libopencv_imgcodecs.so
-
-
+                                    ${OPENCV_LIB_PATH}/libopencv_core.so
+                                    ${OPENCV_LIB_PATH}/libopencv_calib3d.so
+                                    ${OPENCV_LIB_PATH}/libopencv_dnn.so
+                                    ${OPENCV_LIB_PATH}/libopencv_features2d.so
+                                    ${OPENCV_LIB_PATH}/libopencv_flann.so
+                                    ${OPENCV_LIB_PATH}/libopencv_gapi.so
+                                    ${OPENCV_LIB_PATH}/libopencv_highgui.so
+                                    ${OPENCV_LIB_PATH}/libopencv_imgcodecs.so
+                                    ${OPENCV_LIB_PATH}/libopencv_imgproc.so
+                                    ${OPENCV_LIB_PATH}/libopencv_ml.so
+                                    ${OPENCV_LIB_PATH}/libopencv_objdetect.so
+                                    ${OPENCV_LIB_PATH}/libopencv_photo.so
+                                    ${OPENCV_LIB_PATH}/libopencv_stitching.so
+                                    ${OPENCV_LIB_PATH}/libopencv_video.so
+                                    ${OPENCV_LIB_PATH}/libopencv_videoio.so
                                    ${SEETA_LIB_PATH}/libSeetaNet.z.so
                                    ${SEETA_LIB_PATH}/libseetafaceapi.z.so
                                    ${SEETA_LIB_PATH}/libFaceDetector.z.so

@@ -12,7 +12,6 @@
 #include <map>
 
 
-#include "hilog_wrapper.h"
 
 #define MIN_FACE_SIZE 80
 
@@ -338,7 +337,7 @@ static napi_value SaveFDBMethod(napi_env env, napi_callback_info info) {
 }
 
 
-static napi_value seetaTest(napi_env env, napi_callback_info info) {
+static napi_value seetaTestMethod(napi_env env, napi_callback_info info) {
     size_t requireArgc = 0;
     size_t argc = 0;
 
@@ -352,8 +351,9 @@ static napi_value seetaTest(napi_env env, napi_callback_info info) {
 
 EXTERN_C_START
 static napi_value Init(napi_env env, napi_value exports) {
+//     std::abort();
     napi_property_descriptor desc[] = {
-        {"seetaTest", nullptr, seetaTest, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"seetaTest", nullptr, seetaTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"FaceRegister", nullptr, FaceRegisterMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"FaceRecognize", nullptr, FaceRecognizeMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadFDB", nullptr, LoadFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},

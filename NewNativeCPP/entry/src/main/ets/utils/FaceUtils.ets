@@ -1,4 +1,5 @@
-import seetafaceapi from '@ohos.seetafaceapi';
+// import seetafaceapi from '@ohos.seetafaceapi';
+import seetafaceapi from 'libseeta.so'
 import fs from '@ohos.file.fs';
 
 export default class FaceUtils {
