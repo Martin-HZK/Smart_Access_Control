@@ -350,14 +350,14 @@ static napi_value seetaTestMethod(napi_env env, napi_callback_info info) {
 }
 
 EXTERN_C_START
-static napi_value Init(napi_env env, napi_value exports) {
+static napi_value InitSeeta(napi_env env, napi_value exports) {
 //     std::abort();
     napi_property_descriptor desc[] = {
         {"seetaTest", nullptr, seetaTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"FaceRegister", nullptr, FaceRegisterMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"FaceRecognize", nullptr, FaceRecognizeMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"LoadFDB", nullptr, LoadFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"SaveFDB", nullptr, SaveFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr}
+//         {"FaceRegister", nullptr, FaceRegisterMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+//         {"FaceRecognize", nullptr, FaceRecognizeMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+//         {"LoadFDB", nullptr, LoadFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+//         {"SaveFDB", nullptr, SaveFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr}
     
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
@@ -370,7 +370,7 @@ static napi_module registerModule = {
     .nm_version = 1,
     .nm_flags = 0,
     .nm_filename = nullptr,
-    .nm_register_func = Init,
+    .nm_register_func = InitSeeta,
     .nm_modname = "seeta",
     .nm_priv = ((void *)0),
     .reserved = {0},

@@ -14,7 +14,7 @@ export default class EntryAbility extends UIAbility {
     // let rootDir = ctx.filesDir
     let ctx = this.context
     let rootDir = ctx.filesDir
-    console.log("the seetatest number is:" + seetaTest())
+    // console.log("the seetatest number is:" + seetaTest())
     console.log("this is the context root dir: " + rootDir)
     try {
       this.faceutils.loadFaceDB(rootDir)

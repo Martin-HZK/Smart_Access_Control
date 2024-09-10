@@ -5,9 +5,9 @@
         "name": "default",
         "material": {
           "certpath": "C:/Users/Administrator/.ohos/config/openharmony/default_NewNativeCPP_g3O8e3GY3l7CrSzwd_V3mMATMfmeAmsBkhOiEauRNsY=.cer",
-          "storePassword": "0000001B3720F36EC46F57E0585AD619C9BBE75EA1EC51C7C5FAB70AD731B9A6063391F5A0B5902ED5AA33",
+          "storePassword": "0000001BF9B8FE9B565356F5E61C4C923846480BB9A58F710CF35C0AF44B91BEB14E819689ACC89BCF344D",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B4547A20EAC4A88DB1393B53B9678464E4EEC286526700EEEADCCDB146FF7939ADE524C80C561B7",
+          "keyPassword": "0000001B6B4EBCCF6FD35454FF00377257643DAEED40D9E7893F9D9F7A9BCBFF12B6D024CAC4CF3B667589",
           "profile": "C:/Users/Administrator/.ohos/config/openharmony/default_NewNativeCPP_g3O8e3GY3l7CrSzwd_V3mMATMfmeAmsBkhOiEauRNsY=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:/Users/Administrator/.ohos/config/openharmony/default_NewNativeCPP_g3O8e3GY3l7CrSzwd_V3mMATMfmeAmsBkhOiEauRNsY=.p12"
