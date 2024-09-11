@@ -155,6 +155,7 @@ static napi_value testOpenCV(napi_env env, napi_callback_info info) {
     cv::String filePath = str;
     Mat img = cv::imread(str);
     int ret = img.channels();
+    
     OH_LOG_INFO(LOG_APP, "The image channels is: %{public}d", ret);
 
     // 假设我们想返回true
