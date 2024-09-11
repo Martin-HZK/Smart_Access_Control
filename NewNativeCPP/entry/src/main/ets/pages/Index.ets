@@ -4,8 +4,6 @@ import router from '@ohos.router';
 import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
-import exlib from 'libentry.so'
-// import TestSeeta from 'libseeta.so'
 
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
@@ -14,8 +12,6 @@ const baseContext = getContext(this) as common.BaseContext
 @Component
 struct Index {
   @State message: string = 'Hello World';
-  @State exLine: string = exlib.getHelloString();
-  // @State testSeetaNum: number = TestSeeta.seetaTest();
 
 
   getSupportedCameras(cameraManager: camera.CameraManager): number {

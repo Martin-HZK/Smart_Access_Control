@@ -1,5 +1,5 @@
 import FileUtils from '../utils/FileUtils'
-import faceUtils from '../utils/FaceUtils'
+import FaceUtils from '../utils/FaceUtils'
 import promptAction from '@ohos.promptAction'
 import { BusinessError } from '@ohos.base'
 @Entry
@@ -7,7 +7,7 @@ import { BusinessError } from '@ohos.base'
 struct FaceRegisterPage {
   @State message: string = 'Hello Reg';
   @State fileUtils: FileUtils = new FileUtils();
-  @State faceUtils: faceUtils = new faceUtils();
+  @State faceUtils: FaceUtils = new FaceUtils();
 
   build() {
     Row() {
@@ -24,6 +24,7 @@ struct FaceRegisterPage {
              } else {
               let imgPath:string = getContext(this).filesDir +"/" + storagePaths[0]
               console.log("This is the storage path: "+imgPath)
+              await this.faceUtils.openCVTest(imgPath);
 
               // call face register function
               // try {
