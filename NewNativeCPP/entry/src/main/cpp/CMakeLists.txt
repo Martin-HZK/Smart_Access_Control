@@ -51,3 +51,13 @@ target_link_libraries(entry PUBLIC
                         ${OPENCV_LIB_PATH}/libopencv_imgproc.a
 
                     )
+
+target_link_libraries(entry PUBLIC
+                        ${SEETA_LIB_PATH}/libSeetaFaceDetector.a
+                        ${SEETA_LIB_PATH}/libSeetaFaceLandmarker.a
+                        ${SEETA_LIB_PATH}/libSeetaFaceRecognizer.a
+                        ${SEETA_LIB_PATH}/libSeetaNet.a
+                        ${SEETA_LIB_PATH}/libSeetaFaceTracker.a
+                        ${SEETA_LIB_PATH}/libSeetaQualityAssessor.a
+
+                    )

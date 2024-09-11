@@ -16,7 +16,7 @@ export default class EntryAbility extends UIAbility {
     // console.log("the seetatest number is:" + seetaTest())
     console.log("this is the context root dir: " + rootDir)
     try {
-      // this.faceutils.loadFaceDB(rootDir)
+      this.faceutils.loadFaceDB(rootDir)
       console.log("[SUCCESS] Face database loaded successfully")
     } catch (err) {
       console.log("Fail to load the face FDB: " + err)

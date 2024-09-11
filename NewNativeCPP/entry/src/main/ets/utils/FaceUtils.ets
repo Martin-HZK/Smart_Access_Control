@@ -23,35 +23,35 @@ export default class FaceUtils {
   //   return seetafaceapi.FaceRecognize(filePath)
   // }
   //
-  // /**
-  //  * Load the face database to the memory
-  //  * The file is saved in the sandbox 'fileDir': data/storage/el2/base/haps/entry/files/
-  //  */
-  // loadFaceDB(fileRootDir:string) {
-  //   console.log("The root dir is: " + fileRootDir)
-  //
-  //   let fdbDir = fileRootDir + '/Seeta.fdb'
-  //   // only check if the file dir exists
-  //   try {
-  //     if (fs.accessSync(fdbDir)) {
-  //       // Load
-  //       console.log("Before load")
-  //       let ret: boolean = seetafaceapi.LoadFDB(fdbDir)
-  //       console.log('This is the return value: ' + ret)
-  //
-  //     } else {
-  //       this.createDBFileHelper(fdbDir)
-  //       // Load
-  //       console.log("Before load")
-  //       let ret: boolean = seetafaceapi.LoadFDB(fdbDir)
-  //       console.log('This is the return value: ' + ret)
-  //     }
-  //     console.log('File loaded into the runtime memory')
-  //   } catch (err) {
-  //     console.log("[ERR] Error loading the db file: " + err)
-  //   }
-  //
-  // }
+  /**
+   * Load the face database to the memory
+   * The file is saved in the sandbox 'fileDir': data/storage/el2/base/haps/entry/files/
+   */
+  loadFaceDB(fileRootDir:string) {
+    console.log("The root dir is: " + fileRootDir)
+
+    let fdbDir = fileRootDir + '/Seeta.fdb'
+    // only check if the file dir exists
+    try {
+      if (fs.accessSync(fdbDir)) {
+        // Load
+        console.log("Before load")
+        let ret: boolean = faceapi.LoadFDB(fdbDir)
+        console.log('This is the return value: ' + ret)
+
+      } else {
+        this.createDBFileHelper(fdbDir)
+        // Load
+        console.log("Before load")
+        let ret: boolean = faceapi.LoadFDB(fdbDir)
+        console.log('This is the return value: ' + ret)
+      }
+      console.log('File loaded into the runtime memory')
+    } catch (err) {
+      console.log("[ERR] Error loading the db file: " + err)
+    }
+
+  }
   //
   // /**
   //  * Load the face database to the memory
@@ -73,9 +73,9 @@ export default class FaceUtils {
   //   }
   // }
   //
-  // createDBFileHelper(path:string):void  {
-  //   let newDBfile = fs.openSync(path, fs.OpenMode.CREATE)
-  //   fs.closeSync(newDBfile)
-  // }
+  createDBFileHelper(path:string):void  {
+    let newDBfile = fs.openSync(path, fs.OpenMode.CREATE)
+    fs.closeSync(newDBfile)
+  }
 
 }
