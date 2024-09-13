@@ -22,6 +22,7 @@ include_directories(${NATIVERENDER_ROOT_PATH}/thirdparty)
 include_directories(${NATIVERENDER_ROOT_PATH}/thirdparty/hilog/include)
 include_directories(${NATIVERENDER_ROOT_PATH}
                     ${NATIVERENDER_ROOT_PATH}/include)
+#include_directories(${NATIVERENDER_ROOT_PATH}/seeta_models)
 
 add_library(entry SHARED hello.cpp)
 
