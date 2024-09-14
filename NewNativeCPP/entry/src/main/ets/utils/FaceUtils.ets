@@ -96,4 +96,8 @@ export default class FaceUtils {
     return ret
   }
 
+  setFDBLoadStatusToDefault():void {
+    faceapi.SetStatusToDefault();
+  }
+
 }
