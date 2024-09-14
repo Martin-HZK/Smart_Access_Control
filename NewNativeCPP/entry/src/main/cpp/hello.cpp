@@ -222,6 +222,7 @@ static napi_value LoadModelCallBackMethod(napi_env env, napi_callback_info info)
         return ret;
     }
     
+    OH_LOG_INFO(LOG_APP, "[NAPI] Successfully initialize the FaceDetector");
     testStatus  = true;
     
     napi_get_boolean(env, true, &ret);

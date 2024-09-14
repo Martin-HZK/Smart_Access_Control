@@ -80,9 +80,15 @@ export default class FaceUtils {
 
 
 
-  async loadFDBModel(): Promise<boolean> {
-    return faceapi.LoadModelCallBack();
-  }
+  // async loadFDBModel(): Promise<boolean> {
+  //   return faceapi.LoadModelCallBack();
+  // }
+
+  // @Concurrent
+  // function loadFDBModel():boolean {
+  //   return faceapi.LoadModelCallBack();
+  // }
+
 
   checkModelLoadStatus(): boolean {
     let ret:boolean = faceapi.GetStatusTest();

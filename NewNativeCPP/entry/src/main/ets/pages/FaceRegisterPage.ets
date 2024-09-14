@@ -3,19 +3,25 @@ import FaceUtils from '../utils/FaceUtils'
 import promptAction from '@ohos.promptAction'
 import { BusinessError } from '@ohos.base'
 import FaceNAPI from 'libentry.so'
+import taskpool from '@ohos.taskpool';
+@Concurrent
+function loadFDBModel():boolean {
+  return FaceNAPI.LoadModelCallBack();
+}
+
+async function asyncLoad():Promise<void> {
+  let task:taskpool.Task = new taskpool.Task(loadFDBModel)
+  let res:boolean = await taskpool.execute(task) as boolean
+
+  console.info("taskpool:task res is: " + res)
+}
+
 @Entry
 @Component
 struct FaceRegisterPage {
   @State message: string = 'Hello Reg';
   @State fileUtils: FileUtils = new FileUtils();
   @State faceUtils: FaceUtils = new FaceUtils();
-
-
-  onPageShow(): void {
-
-
-  }
-
 
   build() {
     Row() {
@@ -26,30 +32,29 @@ struct FaceRegisterPage {
         Button("Register")
           .type(ButtonType.Normal)
           .onClick(async()=>{
-            FaceNAPI.LoadModelCallBack()
-
-            let pollInterval = 500; // 轮询间隔时间(ms)
-
-            const checkModelLoaded = () => {
-              return new Promise<boolean>((resolve, reject) => {
-                let intervalId = setInterval(async () => {
-                  try {
-                    // 假设这是你导出的 NAPI 接口
-                    let isLoaded:boolean = await this.faceUtils.checkModelLoadStatus();
-
-                    if (isLoaded) {
-                      clearInterval(intervalId); // 模型加载完成，清除定时器
-                      resolve(true); // 返回成功状态
-                    } else {
-                      console.log("Model not loaded yet, retrying...");
-                    }
-                  } catch (err) {
-                    clearInterval(intervalId);
-                    reject(err); // 处理错误
-                  }
-                }, pollInterval);
-              });
-            };
+            asyncLoad();
+            // let pollInterval = 500; // 轮询间隔时间(ms)
+            //
+            // const checkModelLoaded = () => {
+            //   return new Promise<boolean>((resolve, reject) => {
+            //     let intervalId = setInterval(async () => {
+            //       try {
+            //         // 假设这是你导出的 NAPI 接口
+            //         let isLoaded:boolean = await this.faceUtils.checkModelLoadStatus();
+            //
+            //         if (isLoaded) {
+            //           clearInterval(intervalId); // 模型加载完成，清除定时器
+            //           resolve(true); // 返回成功状态
+            //         } else {
+            //           console.log("Model not loaded yet, retrying...");
+            //         }
+            //       } catch (err) {
+            //         clearInterval(intervalId);
+            //         reject(err); // 处理错误
+            //       }
+            //     }, pollInterval);
+            //   });
+            // };
 
             // await checkModelLoaded();
 
