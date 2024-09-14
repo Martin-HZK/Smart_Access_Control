@@ -78,4 +78,16 @@ export default class FaceUtils {
     fs.closeSync(newDBfile)
   }
 
+
+
+  async loadFDBModel(): Promise<boolean> {
+    return faceapi.LoadModelCallBack();
+  }
+
+  checkModelLoadStatus(): boolean {
+    let ret:boolean = faceapi.GetStatusTest();
+    console.log("The given load status is: " + ret)
+    return ret
+  }
+
 }

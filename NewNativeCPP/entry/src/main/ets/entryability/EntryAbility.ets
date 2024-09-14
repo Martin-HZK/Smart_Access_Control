@@ -15,12 +15,12 @@ export default class EntryAbility extends UIAbility {
     let rootDir = ctx.filesDir
     // console.log("the seetatest number is:" + seetaTest())
     console.log("this is the context root dir: " + rootDir)
-    try {
-      this.faceutils.loadFaceDB(rootDir)
-      console.log("[SUCCESS] Face database loaded successfully")
-    } catch (err) {
-      console.log("Fail to load the face FDB: " + err)
-    }
+    // try {
+    //   this.faceutils.loadFaceDB(rootDir)
+    //   console.log("[SUCCESS] Face database loaded successfully")
+    // } catch (err) {
+    //   console.log("Fail to load the face FDB: " + err)
+    // }
   }
 
   onDestroy(): void {
