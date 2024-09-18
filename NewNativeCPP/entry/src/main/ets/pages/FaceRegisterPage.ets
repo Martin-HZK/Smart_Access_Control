@@ -4,6 +4,7 @@ import promptAction from '@ohos.promptAction'
 import { BusinessError } from '@ohos.base'
 import FaceNAPI from 'libentry.so'
 import taskpool from '@ohos.taskpool';
+import common from '@ohos.app.ability.common';
 @Concurrent
 function loadFDBModel():boolean {
   return FaceNAPI.LoadModelCallBack();
@@ -63,6 +64,14 @@ struct FaceRegisterPage {
             this.faceUtils.setFDBLoadStatusToDefault();
 
             console.log("The loadStatus is changed to: " + this.faceUtils.checkModelLoadStatus())
+
+
+            // Load the FDB
+            let ctx = getContext(this) as common.UIAbilityContext
+            let rootDir = ctx.filesDir
+            // let fdbDir = rootDir + '/Seeta.fdb'
+            // console.log("The FDB dir is: " + fdbDir)
+            this.faceUtils.loadFaceDB(rootDir)
 
             // let storagePaths : string[] = this.fileUtils.getTmpFilesInDirectory(getContext(this).filesDir)
             // if(storagePaths.length == 0) {

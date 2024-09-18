@@ -107,17 +107,70 @@ static napi_value LoadFDBMethod(napi_env env, napi_callback_info info) {
     }
 
     OH_LOG_INFO(LOG_APP, "The FDB storage path is: %{public}s",str);
-//     bool myBool = FDB->Load(str);
-
+    bool myBool = FDB->Load(str);
+    OH_LOG_INFO(LOG_APP, "The FDB load status is: %{public}d", myBool);
     free(str);
 //    
      // 假设我们想返回true
-    bool myBool = true;
+//     bool myBool = true;
 
     // 创建一个napi_value来表示布尔值
     napi_value returnValue;
     status = napi_get_boolean(env, myBool, &returnValue);
     if (status != napi_ok) return NULL;
+
+    // 返回布尔值
+    return returnValue;
+}
+
+
+static napi_value SaveFDBMethod(napi_env env, napi_callback_info info) {
+    napi_status status;
+
+    // 获取函数调用的参数
+    size_t argc = 1; // 期望一个参数
+    napi_value args[1];
+    status = napi_get_cb_info(env, info, &argc, args, NULL, NULL);
+    if (status != napi_ok)
+        return NULL;
+
+    // 检查参数是否为字符串类型
+    napi_valuetype valuetype;
+    status = napi_typeof(env, args[0], &valuetype);
+    if (status != napi_ok || valuetype != napi_string) {
+        napi_throw_type_error(env, NULL, "Expected a string as argument");
+        return NULL;
+    }
+
+    // 获取字符串的长度
+    size_t str_len;
+    status = napi_get_value_string_utf8(env, args[0], NULL, 0, &str_len);
+    if (status != napi_ok)
+        return NULL;
+
+    // 分配内存以存储字符串
+    char *str = (char *)malloc(str_len + 1);
+    if (str == NULL) {
+        napi_throw_error(env, NULL, "Memory allocation failed");
+        return NULL;
+    }
+
+    // 将字符串值复制到缓冲区中
+    status = napi_get_value_string_utf8(env, args[0], str, str_len + 1, &str_len);
+    if (status != napi_ok) {
+        free(str);
+        return NULL;
+    }
+
+    OH_LOG_INFO(LOG_APP, "The FDB storage path is: %{public}s", str);
+    bool myBool = FDB->Save(str);
+    OH_LOG_INFO(LOG_APP, "The FDB save status is: %{public}d", myBool);
+    free(str);
+    
+    napi_value returnValue;
+    status = napi_get_boolean(env, myBool, &returnValue);
+    if (status != napi_ok)
+        return NULL;
 
     // 返回布尔值
     return returnValue;
@@ -231,21 +284,6 @@ static napi_value LoadModelCallBackMethod(napi_env env, napi_callback_info info)
 }
 
 
-// static napi_value CallBackTestMethod(napi_env env, napi_callback_info info) {
-//    
-//    
-//    
-//    
-//    
-//     napi_value ret;
-//     napi_status retStatus;
-//     retStatus = napi_get_boolean(env, testStatus, &ret);
-//    
-//     if (retStatus != napi_ok) return NULL;
-//    
-//     return ret;
-// }
-
 static napi_value GetStatusTestMethod(napi_env env, napi_callback_info info) {
     napi_value ret;
     napi_status retStatus;
@@ -311,13 +349,13 @@ static napi_value Init(napi_env env, napi_value exports) {
         {"add", nullptr, Add, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"seetaTest", nullptr, seetaTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadFDB", nullptr, LoadFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"SaveFDB", nullptr, SaveFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"TestNAPI", nullptr, testNAPI, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"TestOpenCV", nullptr, testOpenCV, nullptr, nullptr, nullptr, napi_default, nullptr},
-//         {"TestCallBack", nullptr, CallBackTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadModelCallBack", nullptr, LoadModelCallBackMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"GetStatusTest", nullptr, GetStatusTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"SetStatusToDefault", nullptr, SetStatusToDefaultMethod, nullptr, nullptr, nullptr, napi_default, nullptr}
-        
+
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
     return exports;
