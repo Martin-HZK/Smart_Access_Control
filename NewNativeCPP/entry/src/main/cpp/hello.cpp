@@ -28,6 +28,12 @@ static std::unique_ptr<seeta::FaceDatabase> FDB;
 
 static bool testStatus = false; // this is the argument used for testing the functionality of the async works
 
+/**
+ * This is the test method on the functionality of Native API
+ * @param env
+ * @param info
+ * @return Add result
+ */
 static napi_value Add(napi_env env, napi_callback_info info) {
     size_t requireArgc = 2;
     size_t argc = 2;
@@ -54,20 +60,12 @@ static napi_value Add(napi_env env, napi_callback_info info) {
 }
 
 
-static napi_value seetaTestMethod(napi_env env, napi_callback_info info) {
-    size_t requireArgc = 0;
-    size_t argc = 0;
-
-
-    napi_value result = nullptr;
-    napi_status status;
-    status = napi_create_int64(env, 10086, &result);
-
-    return result;
-}
-
-
-
+/**
+ * This load method fetch the db file from the disk and get it into the memory for further performance
+ * @param env
+ * @param info
+ * @return the boolean value of whether the db is successfully loaded
+ */
 static napi_value LoadFDBMethod(napi_env env, napi_callback_info info) {
     
 
@@ -123,7 +121,12 @@ static napi_value LoadFDBMethod(napi_env env, napi_callback_info info) {
     return returnValue;
 }
 
-
+/**
+ * This NAPI enables ArkTS to save the FDB data in the memory to the disk for permanent storage
+ * @param env
+ * @param info
+ * @return boolean value of storage result
+ */
 static napi_value SaveFDBMethod(napi_env env, napi_callback_info info) {
     napi_status status;
 
@@ -176,6 +179,12 @@ static napi_value SaveFDBMethod(napi_env env, napi_callback_info info) {
     return returnValue;
 }
 
+/**
+ * This is the tester of the basic functionality, imread, of the OpenCV library
+ * @param env
+ * @param info
+ * @return test status
+ */
 static napi_value testOpenCV(napi_env env, napi_callback_info info) {
         napi_status status;
 
@@ -240,32 +249,37 @@ static napi_value testOpenCV(napi_env env, napi_callback_info info) {
 
 }
 
+//
+// static napi_value testNAPI(napi_env env, napi_callback_info info) {
+//     napi_value returnValue;
+//     napi_status status;
+//     status = napi_create_int32(env, (int32_t) test(), &returnValue);
+// //     char* aaa = "AAAA yes!";
+// //     int a = 5, b = 10;
+// //     OH_LOG_ERROR(LOG_APP, "Pure a: %{public}d b:%{private}d.", a, b);
+// //     OH_LOG_INFO(LOG_APP, "The test URL is: %{public}s", aaa);
+//    
+//     if (status != napi_ok) return NULL;
+//
+//     return returnValue;
+// }
 
-static napi_value testNAPI(napi_env env, napi_callback_info info) {
-    napi_value returnValue;
-    napi_status status;
-    status = napi_create_int32(env, (int32_t) test(), &returnValue);
-//     char* aaa = "AAAA yes!";
-//     int a = 5, b = 10;
-//     OH_LOG_ERROR(LOG_APP, "Pure a: %{public}d b:%{private}d.", a, b);
-//     OH_LOG_INFO(LOG_APP, "The test URL is: %{public}s", aaa);
-    
-    if (status != napi_ok) return NULL;
 
-    return returnValue;
-}
-
-
-
+/**
+ * This is the method to load the Seetaface models and finish the initialization of facedatabase
+ * @param env
+ * @param info
+ * @return boolean value of whether the models are successfully loaded
+ */
 static napi_value LoadModelCallBackMethod(napi_env env, napi_callback_info info) {
     napi_value ret;
 
     try {
-//         seeta::ModelSetting FD_model("/data/storage/el2/base/haps/entry/files/fd_2_00.dat", device, id);
-//         seeta::ModelSetting PD_model("/data/storage/el2/base/haps/entry/files/pd_2_00_pts5.dat", device, id);
+        seeta::ModelSetting FD_model("/data/storage/el2/base/haps/entry/files/fd_2_00.dat", device, id);
+        seeta::ModelSetting PD_model("/data/storage/el2/base/haps/entry/files/pd_2_00_pts5.dat", device, id);
         seeta::ModelSetting FR_model("/data/storage/el2/base/haps/entry/files/fr_2_10.dat", device, id);
-//         FD = std::make_unique<seeta::v2::FaceDetector>(FD_model);
-//         PD = std::make_unique<seeta::v2::FaceLandmarker>(PD_model);
+        FD = std::make_unique<seeta::v2::FaceDetector>(FD_model);
+        PD = std::make_unique<seeta::v2::FaceLandmarker>(PD_model);
         FDB = std::make_unique<seeta::v2::FaceDatabase>(FR_model);
         
     } catch (const std::exception &e) {
@@ -283,7 +297,12 @@ static napi_value LoadModelCallBackMethod(napi_env env, napi_callback_info info)
     return ret;
 }
 
-
+/**
+ * This NAPI provide ArkTS with the current status of Model loading
+ * @param env
+ * @param info
+ * @return boolean value of Model loading status 
+ */
 static napi_value GetStatusTestMethod(napi_env env, napi_callback_info info) {
     napi_value ret;
     napi_status retStatus;
@@ -298,7 +317,7 @@ static napi_value GetStatusTestMethod(napi_env env, napi_callback_info info) {
 /**
  * After we finish the loading process, we need to set the status back to false
  * @param env
- * @return
+ * @return NULL
  */
 static napi_value SetStatusToDefaultMethod(napi_env env, napi_callback_info info) {
     testStatus = false;
@@ -308,54 +327,18 @@ static napi_value SetStatusToDefaultMethod(napi_env env, napi_callback_info info
 EXTERN_C_START
 static napi_value Init(napi_env env, napi_value exports) {
     //     std::abort();
-//     try {
-//
-//         //             seeta::ModelSetting FD_model(
-//         //                 "D:\\Nottingham\\OpenHarmony\\Projects\\FaceRegNew\\NewNativeCPP\\entry\\src\\main\\cpp\\seeta_models\\fd_2_00."
-//         //                 "dat",
-//         //                 device, id);
-//         //             seeta::ModelSetting PD_model(
-//         //                 "D:\\Nottingham\\OpenHarmony\\Projects\\FaceRegNew\\NewNativeCPP\\entry\\src\\main\\cpp\\seeta_models\\pd_2_00_"
-//         //                 "pts5.dat",
-//         //                 device, id);
-//         //             seeta::ModelSetting FR_model(
-//         //                 "D:\\Nottingham\\OpenHarmony\\Projects\\FaceRegNew\\NewNativeCPP\\entry\\src\\main\\cpp\\seeta_models\\fr_2_10."
-//         //                 "dat",
-//         //                 device, id);
-//
-//         //         seeta::ModelSetting FD_model("./seeta_models/fd_2_00.dat", device, id);
-//         //         seeta::ModelSetting PD_model("./seeta_models/pd_2_00_pts5.dat", device, id);
-//         //         seeta::ModelSetting FR_model("./seeta_models/fr_2_10.dat", device, id);
-//         //         //             seeta::v2::FaceDetector FD(FD_model);
-//         //         //             seeta::v2::FaceLandmarker PD(PD_model);
-//         //         //             seeta::v2::FaceDatabase FDB(FR_model);
-//
-//
-//         //                 seeta::ModelSetting FD_model("/data/storage/el2/base/haps/entry/files/fd_2_00.dat",
-//         //                 device, id); seeta::ModelSetting
-//         //                 PD_model("/data/storage/el2/base/haps/entry/files/pd_2_00_pts5.dat", device, id);
-//         //                 seeta::ModelSetting FR_model("/data/storage/el2/base/haps/entry/files/fr_2_10.dat",
-//         //                 device, id);
-//         //         FD = std::make_unique<seeta::v2::FaceDetector>(FD_model);
-//         //         PD = std::make_unique<seeta::v2::FaceLandmarker>(PD_model);
-//         //         FDB = std::make_unique<seeta::v2::FaceDatabase>(FR_model);
-//
-//     } catch (const std::exception &e) {
-//         OH_LOG_ERROR(LOG_APP, "Failed to initialize FaceDetector: %{public}s", e.what());
-//         return nullptr;
-//     }
+
 
     napi_property_descriptor desc[] = {
         {"add", nullptr, Add, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"seetaTest", nullptr, seetaTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadFDB", nullptr, LoadFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"SaveFDB", nullptr, SaveFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"TestNAPI", nullptr, testNAPI, nullptr, nullptr, nullptr, napi_default, nullptr},
+//         {"TestNAPI", nullptr, testNAPI, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"TestOpenCV", nullptr, testOpenCV, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadModelCallBack", nullptr, LoadModelCallBackMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"GetStatusTest", nullptr, GetStatusTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"SetStatusToDefault", nullptr, SetStatusToDefaultMethod, nullptr, nullptr, nullptr, napi_default, nullptr}
-
+        
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
     return exports;
@@ -376,4 +359,3 @@ static napi_value Init(napi_env env, napi_value exports) {
         //     abort();
         napi_module_register(&demoModule);
     }
-    //
