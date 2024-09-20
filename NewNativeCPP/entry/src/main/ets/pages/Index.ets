@@ -103,6 +103,8 @@ struct Index {
           bottom: { anchor: '__container__', align: VerticalAlign.Bottom },
           middle: { anchor: '__container__', align: HorizontalAlign.Center }
         }); // 确保按钮正确对齐并在容器中显示
+
+
       }
       .width('100%')
     }

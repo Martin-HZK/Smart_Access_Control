@@ -39,7 +39,7 @@ async function asyncRegister(path:string):Promise<void> {
 @Entry
 @Component
 struct FaceRegisterPage {
-  @State message: string = 'Hello Reg';
+  @State message: string = 'Register';
   @State fileUtils: FileUtils = new FileUtils();
   @State faceUtils: FaceUtils = new FaceUtils();
 
@@ -125,6 +125,8 @@ struct FaceRegisterPage {
               }
 
               await checkFaceRegistered();
+
+              isRegistered = false; // set the register status to default after registration
 
               this.fileUtils.deleteTmpFile(imgPath)
               console.log("Register finished")

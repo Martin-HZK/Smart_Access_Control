@@ -105,6 +105,21 @@ struct Index {
                 console.log('Error code ${err.code}, Error message: ${err.message}')
               })
             })
+          Button("Recognize")
+            .type(ButtonType.Capsule)
+            .fontColor(Color.White)
+            .fontWeight(FontWeight.Normal)
+            .stateEffect(true)
+            .onClick(()=>{
+
+              router.pushUrl({
+                url: 'pages/FaceRecognizePage',
+              }).then(() =>{
+                console.info('Jump success')
+              }).catch((err:BusinessError)=>{
+                console.log('Error code ${err.code}, Error message: ${err.message}')
+              })
+            })
         }
         .margin(10)
       }
