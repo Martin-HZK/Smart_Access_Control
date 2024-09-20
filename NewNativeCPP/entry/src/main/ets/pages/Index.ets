@@ -4,9 +4,8 @@ import router from '@ohos.router';
 import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
-import exlib from 'libentry.so'
-// import TestSeeta from 'libseeta.so'
-
+PersistentStorage.persistProp("isRawNewDB", false);
+PersistentStorage.persistProp("modelLoaded", false);
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
 
@@ -14,8 +13,6 @@ const baseContext = getContext(this) as common.BaseContext
 @Component
 struct Index {
   @State message: string = 'Hello World';
-  @State exLine: string = exlib.getHelloString();
-  // @State testSeetaNum: number = TestSeeta.seetaTest();
 
 
   getSupportedCameras(cameraManager: camera.CameraManager): number {
@@ -37,9 +34,13 @@ struct Index {
           .fontSize(50)
           .fontWeight(FontWeight.Bold)
           .onClick(() => {
-            // hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
+            hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
             // console.log("The number of Seeta test is: " + this.testSeetaNum)
+
+            console.log("The persistent storage is: " + AppStorage.get<boolean>('isRawNewDB'))
           })
+
+
 
         // Text(this.exLine)
         //   .onAppear(()=>{
@@ -102,6 +103,8 @@ struct Index {
           bottom: { anchor: '__container__', align: VerticalAlign.Bottom },
           middle: { anchor: '__container__', align: HorizontalAlign.Center }
         }); // 确保按钮正确对齐并在容器中显示
+
+
       }
       .width('100%')
     }

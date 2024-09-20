@@ -4,7 +4,6 @@ import UIAbility from '@ohos.app.ability.UIAbility';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
 import FaceUtils from '../utils/FaceUtils'
-import common from '@ohos.app.ability.common';
 export default class EntryAbility extends UIAbility {
   faceutils:FaceUtils = new FaceUtils();
 
@@ -14,13 +13,12 @@ export default class EntryAbility extends UIAbility {
     // let rootDir = ctx.filesDir
     let ctx = this.context
     let rootDir = ctx.filesDir
+    // console.log("the seetatest number is:" + seetaTest())
     console.log("this is the context root dir: " + rootDir)
-    try {
-      this.faceutils.loadFaceDB(rootDir)
-      console.log("[SUCCESS] Face database loaded successfully")
-    } catch (err) {
-      console.log("Fail to load the face FDB: " + err)
-    }
+
+    PersistentStorage.persistProp('modelLoaded', false)
+
+
   }
 
   onDestroy(): void {
@@ -29,10 +27,12 @@ export default class EntryAbility extends UIAbility {
     let rootDir = ctx.filesDir
     try {
       this.faceutils.saveFaceDB(rootDir)
-      console.log("[SUCCESS] Face database loaded successfully")
+      console.log("[SUCCESS] Face database saved successfully")
     } catch (err) {
-      console.log("Fail to load the face FDB: " + err)
+      console.log("Fail to save the face FDB: " + err)
     }
+    PersistentStorage.persistProp('modelLoaded', false)
+    console.log("The modelLoad status in js is set to [" + AppStorage.get<number>('modelLoaded') + "] after quit")
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
