@@ -5,12 +5,11 @@ import { BusinessError } from '@ohos.base'
 import FaceNAPI from 'libentry.so'
 import taskpool from '@ohos.taskpool';
 import common from '@ohos.app.ability.common';
-
+let isRegistered = false;
 @Concurrent
 function loadFDBModel():boolean {
   return FaceNAPI.LoadModelCallBack();
 }
-
 async function asyncLoad():Promise<void> {
   let task:taskpool.Task = new taskpool.Task(loadFDBModel)
   let res:boolean = await taskpool.execute(task) as boolean
@@ -20,15 +19,19 @@ async function asyncLoad():Promise<void> {
   console.info("taskpool:task res is: " + res)
 }
 
-
 @Concurrent
 function registerFace(path:string):boolean {
-  return FaceNAPI.FaceRegister(path);
+  let ret:boolean = FaceNAPI.FaceRegister(path);
+  // if (ret)
+  //   isRegistered = true;
+  return ret;
 }
 
 async function asyncRegister(path:string):Promise<void> {
   let task:taskpool.Task = new taskpool.Task(registerFace, path)
   let res:boolean = await taskpool.execute(task) as boolean
+  if (res)
+    isRegistered = true
 
   console.log("The register functionality return: " + res)
 }
@@ -77,6 +80,7 @@ struct FaceRegisterPage {
                 });
               };
 
+
               await checkModelLoaded();
 
               console.log("Successfully load the models!")
@@ -99,8 +103,33 @@ struct FaceRegisterPage {
               let imgPath: string = getContext(this).filesDir + "/" + storagePaths[0]
               console.log("This is the storage path: " + imgPath)
               asyncRegister(imgPath)
-            }
 
+              let pollInterval = 500; // 轮询间隔时间(ms)
+
+              const checkFaceRegistered = () => {
+                return new Promise<boolean>((resolve, reject) => {
+                  let intervalId = setInterval(async() => {
+                    try {
+                      if (isRegistered) {
+                        clearInterval(intervalId)
+                        resolve(true)
+                      } else {
+                        console.log("Face not registered yet, retrying...");
+                      }
+                    } catch (err) {
+                      clearInterval(intervalId)
+                      reject(err)
+                    }
+                  }, pollInterval)
+                })
+              }
+
+              await checkFaceRegistered();
+
+              this.fileUtils.deleteTmpFile(imgPath)
+              console.log("Register finished")
+
+            }
 
             //
             //
@@ -113,8 +142,9 @@ struct FaceRegisterPage {
             //   // }
             //
             //
-            //   this.fileUtils.deleteTmpFile(imgPath)
-            //   console.log("Register finished")
+
+
+
             // }
             // try {
             //   promptAction.showToast({
