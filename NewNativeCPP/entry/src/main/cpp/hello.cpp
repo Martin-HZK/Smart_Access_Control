@@ -493,6 +493,8 @@ static napi_value FaceRegisterMethod(napi_env env, napi_callback_info info) {
     napi_value ret;
     int64_t id = -1;
     try {
+        OH_LOG_INFO(LOG_APP, "Start registering faces...");
+
         id = RegisterFace(filePath, *FD, *PD, *FDB);
         OH_LOG_INFO(LOG_APP, "Successfully registered!The face id is: %{public}d.", id);
     } catch (const std::exception &e) {
@@ -512,6 +514,64 @@ static napi_value FaceRegisterMethod(napi_env env, napi_callback_info info) {
     return ret;
 }
 
+static napi_value FaceRecognizerMethod(napi_env env, napi_callback_info info) {
+    napi_status status;
+
+
+    // 获取函数调用的参数
+    size_t argc = 1; // 期望一个参数
+    napi_value args[1];
+    status = napi_get_cb_info(env, info, &argc, args, NULL, NULL);
+    if (status != napi_ok)
+        return NULL;
+
+    // 检查参数是否为字符串类型
+    napi_valuetype valuetype;
+    status = napi_typeof(env, args[0], &valuetype);
+    if (status != napi_ok || valuetype != napi_string) {
+        napi_throw_type_error(env, NULL, "Expected a string as argument");
+        return NULL;
+    }
+
+    // 获取字符串的长度
+    size_t str_len;
+    status = napi_get_value_string_utf8(env, args[0], NULL, 0, &str_len);
+    if (status != napi_ok)
+        return NULL;
+
+    // 分配内存以存储字符串
+    char *str = (char *)malloc(str_len + 1);
+    if (str == NULL) {
+        napi_throw_error(env, NULL, "Memory allocation failed");
+        return NULL;
+    }
+
+    // 将字符串值复制到缓冲区中
+    status = napi_get_value_string_utf8(env, args[0], str, str_len + 1, &str_len);
+    if (status != napi_ok) {
+        free(str);
+        return NULL;
+    }
+
+    std::string filePath(str);
+    napi_value ret;
+    OH_LOG_INFO(LOG_APP, "Start recognizing faces...");
+    int64_t isSuccess = RecognizeFace(filePath, *FD, *PD, *FDB);
+
+
+    //     napi_create_int64(env, isSuccess, &ret);
+
+    if (isSuccess == 0) {
+        napi_get_boolean(env, false, &ret);
+        OH_LOG_INFO(LOG_APP, "Face lost!!!");
+
+    } else {
+        napi_get_boolean(env, true, &ret);
+        OH_LOG_INFO(LOG_APP, "Face found!!!");
+    }
+
+    return ret;
+}
 
 EXTERN_C_START
 static napi_value Init(napi_env env, napi_value exports) {
@@ -522,12 +582,14 @@ static napi_value Init(napi_env env, napi_value exports) {
         {"add", nullptr, Add, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadFDB", nullptr, LoadFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"SaveFDB", nullptr, SaveFDBMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-//         {"TestNAPI", nullptr, testNAPI, nullptr, nullptr, nullptr, napi_default, nullptr},
+        //         {"TestNAPI", nullptr, testNAPI, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"TestOpenCV", nullptr, testOpenCV, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"LoadModelCallBack", nullptr, LoadModelCallBackMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"GetStatusTest", nullptr, GetStatusTestMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
-        {"SetStatusToDefault", nullptr, SetStatusToDefaultMethod, nullptr, nullptr, nullptr, napi_default, nullptr}
-        
+        {"SetStatusToDefault", nullptr, SetStatusToDefaultMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"FaceRegister", nullptr, FaceRegisterMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"FaceRecognize", nullptr, FaceRecognizerMethod, nullptr, nullptr, nullptr, napi_default, nullptr},
+
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
     return exports;

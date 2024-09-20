@@ -43,6 +43,7 @@ export default class FaceUtils {
         this.createDBFileHelper(fdbDir)
         // Load
         console.log("Before load")
+        this.formatNewDBFile(fdbDir) // format the newly created db file
         let ret: boolean = faceapi.LoadFDB(fdbDir)
         console.log('This is the return value: ' + ret)
       }
@@ -52,27 +53,27 @@ export default class FaceUtils {
     }
 
   }
-  //
-  // /**
-  //  * Load the face database to the memory
-  //  * The file is saved in the sandbox 'fileDir': data/storage/el2/base/haps/entry/files/
-  //  */
-  // saveFaceDB(fileRootDir:string) {
-  //   // let fileRootDir = getContext(this).filesDir
-  //   let fdbDir = fileRootDir + '/Seeta.fdb'
-  //   // only check if the file dir exists
-  //
-  //   if (fs.accessSync(fdbDir)) {
-  //     // Load
-  //     seetafaceapi.SaveFDB(fdbDir)
-  //
-  //   } else {
-  //     this.createDBFileHelper(fdbDir)
-  //     // Load
-  //     seetafaceapi.SaveFDB(fdbDir)
-  //   }
-  // }
-  //
+
+  /**
+   * Load the face database to the memory
+   * The file is saved in the sandbox 'fileDir': data/storage/el2/base/haps/entry/files/
+   */
+  saveFaceDB(fileRootDir:string) {
+    // let fileRootDir = getContext(this).filesDir
+    let fdbDir = fileRootDir + '/Seeta.db'
+    // only check if the file dir exists
+
+    if (fs.accessSync(fdbDir)) {
+      // Load
+      faceapi.SaveFDB(fdbDir)
+
+    } else {
+      this.createDBFileHelper(fdbDir)
+      // Load
+      faceapi.SaveFDB(fdbDir)
+    }
+  }
+
   /**
    * The Create db helper can create the face db file
    * @param path

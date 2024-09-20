@@ -6,3 +6,5 @@ export const TestOpenCV:(path:string) => boolean;
 export const LoadModelCallBack:() => boolean;
 export const GetStatusTest:() => boolean;
 export const SetStatusToDefault:() => null;
+export const FaceRegister:(path:string) => boolean;
+export const FaceRecognize:(path:string) => boolean;

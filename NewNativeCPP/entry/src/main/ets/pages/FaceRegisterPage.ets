@@ -18,6 +18,19 @@ async function asyncLoad():Promise<void> {
   console.info("taskpool:task res is: " + res)
 }
 
+
+@Concurrent
+function registerFace(path:string):boolean {
+  return FaceNAPI.FaceRegister(path);
+}
+
+async function asyncRegister(path:string):Promise<void> {
+  let task:taskpool.Task = new taskpool.Task(registerFace, path)
+  let res:boolean = await taskpool.execute(task) as boolean
+
+  console.log("The register functionality return: " + res)
+}
+
 @Entry
 @Component
 struct FaceRegisterPage {
@@ -73,18 +86,19 @@ struct FaceRegisterPage {
             // Load the FDB
             let ctx = getContext(this) as common.UIAbilityContext
             let rootDir = ctx.filesDir
-            // let fdbDir = rootDir + '/Seeta.fdb'
-            // console.log("The FDB dir is: " + fdbDir)
             this.faceUtils.loadFaceDB(rootDir)
 
-            // let storagePaths : string[] = this.fileUtils.getTmpFilesInDirectory(getContext(this).filesDir)
-            // if(storagePaths.length == 0) {
-            //     console.log("NULL path")
-            //  } else {
-            //   let imgPath:string = getContext(this).filesDir +"/" + storagePaths[0]
-            //   console.log("This is the storage path: "+imgPath)
-            //   await this.faceUtils.openCVTest(imgPath);
-            //
+
+            let storagePaths : string[] = this.fileUtils.getTmpFilesInDirectory(getContext(this).filesDir)
+            if(storagePaths.length == 0) {
+                console.log("NULL path")
+             } else {
+              let imgPath: string = getContext(this).filesDir + "/" + storagePaths[0]
+              console.log("This is the storage path: " + imgPath)
+              asyncRegister(imgPath)
+            }
+
+
             //
             //
             //   // call face register function

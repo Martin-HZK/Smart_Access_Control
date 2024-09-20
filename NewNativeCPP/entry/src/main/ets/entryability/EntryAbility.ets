@@ -23,7 +23,7 @@ export default class EntryAbility extends UIAbility {
     let ctx = this.context
     let rootDir = ctx.filesDir
     try {
-      // this.faceutils.saveFaceDB(rootDir)
+      this.faceutils.saveFaceDB(rootDir)
       console.log("[SUCCESS] Face database loaded successfully")
     } catch (err) {
       console.log("Fail to load the face FDB: " + err)
