@@ -4,7 +4,7 @@ import router from '@ohos.router';
 import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
-
+PersistentStorage.persistProp("isRawNewDB", false);
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
 
@@ -35,7 +35,11 @@ struct Index {
           .onClick(() => {
             hilog.info(0x0000, 'testTag', 'Test NAPI 2 + 3 = %{public}d', testNapi.add(2, 3));
             // console.log("The number of Seeta test is: " + this.testSeetaNum)
+
+            console.log("The persistent storage is: " + AppStorage.get<boolean>('isRawNewDB'))
           })
+
+
 
         // Text(this.exLine)
         //   .onAppear(()=>{

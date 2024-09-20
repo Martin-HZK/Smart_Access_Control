@@ -8,14 +8,19 @@
 #include "seeta/FaceDatabase.h"
 #include "seeta/FaceDetector.h"
 #include "seeta/FaceLandmarker.h"
+#include "seeta/QualityAssessor.h"
 #include <rawfile/raw_file.h>
+#include <vector>
+#include <string>
+#include "Struct_cv.h"
 using namespace cv;
-// using namespace std;
+using namespace std;
 
 #undef LOG_DOMAIN
 #undef LOG_TAG
 #define LOG_DOMAIN 0x0201
 #define LOG_TAG "NAPI_TAG"
+#define MIN_FACE_SIZE 80
 // set the running platform
 seeta::ModelSetting::Device device = seeta::ModelSetting::CPU;
 int id = 0;
@@ -323,6 +328,190 @@ static napi_value SetStatusToDefaultMethod(napi_env env, napi_callback_info info
     testStatus = false;
     return nullptr;
 }
+
+/**
+ * The helper function for face detection
+ * @param FD
+ * @param image
+ * @return
+ */
+static std::vector<SeetaFaceInfo> DetectFace(seeta::FaceDetector &FD, const SeetaImageData &image) {
+
+    auto faces = FD.detect(image);
+
+
+    return std::vector<SeetaFaceInfo>(faces.data, faces.data + faces.size);
+}
+
+
+static std::vector<SeetaPointF> DetectPoints(seeta::FaceLandmarker &PD, const SeetaImageData &image, const SeetaRect &face) {
+
+    std::vector<SeetaPointF> points(PD.number());
+
+    PD.mark(image, face, points.data());
+
+
+    return std::move(points);
+}
+
+/**
+ * Helper function for face register
+ * @param filePath
+ * @param FD
+ * @param PD
+ * @param FDB
+ * @return
+ */
+static int64_t RegisterFace(const cv::String &filePath, seeta::FaceDetector &FD, seeta::FaceLandmarker &PD,
+
+                            seeta::FaceDatabase &FDB) {
+
+    std::cout << "Start Registering face..." << std::endl;
+
+    FD.set(seeta::FaceDetector::PROPERTY_MIN_FACE_SIZE, MIN_FACE_SIZE);
+
+    seeta::cv::ImageData image = cv::imread(filePath);
+
+    vector<SeetaFaceInfo> faces = DetectFace(FD, image);
+
+    vector<SeetaPointF> points = DetectPoints(PD, image, faces[0].pos);
+
+    auto id = FDB.Register(image, points.data());
+
+
+    cout << "The face register ends!" << endl;
+
+
+    return id;
+}
+
+
+static int64_t RecognizeFace(const cv::String &filePath, seeta::FaceDetector &FD, seeta::FaceLandmarker &PD,
+
+                             seeta::FaceDatabase &FDB) {
+
+    seeta::QualityAssessor QA;
+
+    float threshold = 0.7f; // 识别阈值
+
+    cv::Mat frame = cv::imread(filePath);
+
+    seeta::cv::ImageData image = frame;
+
+
+    auto f = FD.detect(image);
+
+    vector<SeetaFaceInfo> faces = vector<SeetaFaceInfo>(f.data, f.data + f.size);
+
+    for (int i = 0; i < faces.size(); i++) {
+
+        SeetaFaceInfo &face = faces[i];
+
+        int64_t index = -1;
+
+        float similarity = 0;
+
+        vector<SeetaPointF> points(PD.number());
+
+        PD.mark(image, face.pos, points.data()); // 获取人脸框信息
+
+//         auto score = QA.evaluate(image, face.pos, points.data()); // 获取人脸质量评分
+        auto score = 1; // we temporarily disable the quality checker
+        char *name;
+
+        if (score == 0) {
+
+            // name = "ignored";
+
+        } else {
+
+            auto queried = FDB.QueryTop(image, points.data(), 1, &index, &similarity); // 从注册的人脸数据库中对比相似度
+
+            if (queried < 1) {
+
+                continue;
+            }
+
+            // if the result got return 0 instead!
+
+            if (similarity > threshold) {
+
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+/**
+ * NAPI provided for ArkTS to register new come face data.
+ * @param env
+ * @param info
+ * @return True if the successfully returned.
+ */
+static napi_value FaceRegisterMethod(napi_env env, napi_callback_info info) {
+    napi_status status;
+
+
+    // 获取函数调用的参数
+    size_t argc = 1; // 期望一个参数
+    napi_value args[1];
+    status = napi_get_cb_info(env, info, &argc, args, NULL, NULL);
+    if (status != napi_ok)
+        return NULL;
+
+    // 检查参数是否为字符串类型
+    napi_valuetype valuetype;
+    status = napi_typeof(env, args[0], &valuetype);
+    if (status != napi_ok || valuetype != napi_string) {
+        napi_throw_type_error(env, NULL, "Expected a string as argument");
+        return NULL;
+    }
+
+    // 获取字符串的长度
+    size_t str_len;
+    status = napi_get_value_string_utf8(env, args[0], NULL, 0, &str_len);
+    if (status != napi_ok)
+        return NULL;
+
+    // 分配内存以存储字符串
+    char *str = (char *)malloc(str_len + 1);
+    if (str == NULL) {
+        napi_throw_error(env, NULL, "Memory allocation failed");
+        return NULL;
+    }
+
+    // 将字符串值复制到缓冲区中
+    status = napi_get_value_string_utf8(env, args[0], str, str_len + 1, &str_len);
+    if (status != napi_ok) {
+        free(str);
+        return NULL;
+    }
+    
+    std::string filePath(str);
+    napi_value ret;
+    int64_t id = -1;
+    try {
+        id = RegisterFace(filePath, *FD, *PD, *FDB);
+        OH_LOG_INFO(LOG_APP, "Successfully registered!The face id is: %{public}d.", id);
+    } catch (const std::exception &e) {
+        OH_LOG_ERROR(LOG_APP, "Failed to initialize FaceDetector: %{public}s", e.what());
+        napi_status ret_status = napi_get_boolean(env, false, &ret);
+
+        return ret;
+    }
+
+    if(id == -1) {
+        napi_get_boolean(env, false, &ret);
+    } else {
+        napi_get_boolean(env, true, &ret);
+    }
+    
+    
+    return ret;
+}
+
 
 EXTERN_C_START
 static napi_value Init(napi_env env, napi_value exports) {

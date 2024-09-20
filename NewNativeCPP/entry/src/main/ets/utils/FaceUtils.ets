@@ -30,7 +30,7 @@ export default class FaceUtils {
   loadFaceDB(fileRootDir:string) {
     console.log("The root dir is: " + fileRootDir)
 
-    let fdbDir = fileRootDir + '/Seeta.fdb'
+    let fdbDir = fileRootDir + '/Seeta.db'
     // only check if the file dir exists
     try {
       if (fs.accessSync(fdbDir)) {
@@ -73,9 +73,21 @@ export default class FaceUtils {
   //   }
   // }
   //
+  /**
+   * The Create db helper can create the face db file
+   * @param path
+   */
   createDBFileHelper(path:string):void  {
     let newDBfile = fs.openSync(path, fs.OpenMode.CREATE)
     fs.closeSync(newDBfile)
+  }
+
+  /**
+   * The function format the database file for further data load and save steps
+   * @param path
+   */
+  formatNewDBFile(path:string):void {
+    faceapi.SaveFDB(path);
   }
 
 

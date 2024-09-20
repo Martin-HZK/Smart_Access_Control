@@ -5,6 +5,7 @@ import { BusinessError } from '@ohos.base'
 import FaceNAPI from 'libentry.so'
 import taskpool from '@ohos.taskpool';
 import common from '@ohos.app.ability.common';
+
 @Concurrent
 function loadFDBModel():boolean {
   return FaceNAPI.LoadModelCallBack();
@@ -30,6 +31,9 @@ struct FaceRegisterPage {
         Text(this.message)
           .fontSize(50)
           .fontWeight(FontWeight.Bold)
+          .onClick(async()=> {
+            console.log("The persistent storage is: " + AppStorage.get<boolean>('isRawNewDB'))
+          })
         Button("Register")
           .type(ButtonType.Normal)
           .onClick(async()=>{
