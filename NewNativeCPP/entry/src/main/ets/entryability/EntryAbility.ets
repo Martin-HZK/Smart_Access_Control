@@ -16,6 +16,9 @@ export default class EntryAbility extends UIAbility {
     // console.log("the seetatest number is:" + seetaTest())
     console.log("this is the context root dir: " + rootDir)
 
+    PersistentStorage.persistProp('modelLoaded', false)
+
+
   }
 
   onDestroy(): void {
@@ -24,10 +27,12 @@ export default class EntryAbility extends UIAbility {
     let rootDir = ctx.filesDir
     try {
       this.faceutils.saveFaceDB(rootDir)
-      console.log("[SUCCESS] Face database loaded successfully")
+      console.log("[SUCCESS] Face database saved successfully")
     } catch (err) {
-      console.log("Fail to load the face FDB: " + err)
+      console.log("Fail to save the face FDB: " + err)
     }
+    PersistentStorage.persistProp('modelLoaded', false)
+    console.log("The modelLoad status in js is set to [" + AppStorage.get<number>('modelLoaded') + "] after quit")
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {

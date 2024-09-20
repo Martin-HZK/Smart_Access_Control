@@ -5,6 +5,7 @@ import {BusinessError} from '@ohos.base'
 import camera from '@ohos.multimedia.camera';
 import common from '@ohos.app.ability.common';
 PersistentStorage.persistProp("isRawNewDB", false);
+PersistentStorage.persistProp("modelLoaded", false);
 const context = getContext(this) as common.UIAbilityContext;
 const baseContext = getContext(this) as common.BaseContext
 

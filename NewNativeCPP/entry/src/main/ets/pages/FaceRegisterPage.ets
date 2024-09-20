@@ -14,7 +14,9 @@ function loadFDBModel():boolean {
 async function asyncLoad():Promise<void> {
   let task:taskpool.Task = new taskpool.Task(loadFDBModel)
   let res:boolean = await taskpool.execute(task) as boolean
-
+  if (res == true) {
+    PersistentStorage.persistProp('modelLoaded', true) // when successfully loaded, we need to change the number to true to avoid loading another time in register stage
+  }
   console.info("taskpool:task res is: " + res)
 }
 
@@ -50,38 +52,39 @@ struct FaceRegisterPage {
         Button("Register")
           .type(ButtonType.Normal)
           .onClick(async()=>{
-            asyncLoad();
-            let pollInterval = 500; // 轮询间隔时间(ms)
+            if (!AppStorage.get<boolean>('modelLoaded')) {
+              asyncLoad();
+              let pollInterval = 500; // 轮询间隔时间(ms)
 
-            const checkModelLoaded = () => {
-              return new Promise<boolean>((resolve, reject) => {
-                let intervalId = setInterval(async () => {
-                  try {
-                    // 假设这是你导出的 NAPI 接口
-                    let isLoaded:boolean = await this.faceUtils.checkModelLoadStatus();
+              const checkModelLoaded = () => {
+                return new Promise<boolean>((resolve, reject) => {
+                  let intervalId = setInterval(async () => {
+                    try {
+                      // 假设这是你导出的 NAPI 接口
+                      let isLoaded:boolean = await this.faceUtils.checkModelLoadStatus();
 
-                    if (isLoaded) {
-                      clearInterval(intervalId); // 模型加载完成，清除定时器
-                      resolve(true); // 返回成功状态
-                    } else {
-                      console.log("Model not loaded yet, retrying...");
+                      if (isLoaded) {
+                        clearInterval(intervalId); // 模型加载完成，清除定时器
+                        resolve(true); // 返回成功状态
+                      } else {
+                        console.log("Model not loaded yet, retrying...");
+                      }
+                    } catch (err) {
+                      clearInterval(intervalId);
+                      reject(err); // 处理错误
                     }
-                  } catch (err) {
-                    clearInterval(intervalId);
-                    reject(err); // 处理错误
-                  }
-                }, pollInterval);
-              });
-            };
+                  }, pollInterval);
+                });
+              };
 
-            await checkModelLoaded();
+              await checkModelLoaded();
 
-            console.log("Successfully load the models!")
+              console.log("Successfully load the models!")
 
-            this.faceUtils.setFDBLoadStatusToDefault();
+              this.faceUtils.setFDBLoadStatusToDefault();
 
-            console.log("The loadStatus is changed to: " + this.faceUtils.checkModelLoadStatus())
-
+              console.log("The loadStatus is changed to: " + this.faceUtils.checkModelLoadStatus())
+            }
 
             // Load the FDB
             let ctx = getContext(this) as common.UIAbilityContext
