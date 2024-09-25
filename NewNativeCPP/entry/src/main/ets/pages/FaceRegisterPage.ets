@@ -14,7 +14,9 @@ async function asyncLoad():Promise<void> {
   let task:taskpool.Task = new taskpool.Task(loadFDBModel)
   let res:boolean = await taskpool.execute(task) as boolean
   if (res == true) {
-    PersistentStorage.persistProp('modelLoaded', true) // when successfully loaded, we need to change the number to true to avoid loading another time in register stage
+    // PersistentStorage.persistProp('modelLoaded', true) // when successfully loaded, we need to change the number to true to avoid loading another time in register stage
+    // console.log("The model load status is switched to" + AppStorage.get<boolean>('modelLoaded') + ", enabling quick call on model")
+  AppStorage.setOrCreate('modelLoaded', true)
   }
   console.info("taskpool:task res is: " + res)
 }
@@ -86,7 +88,7 @@ struct FaceRegisterPage {
               console.log("Successfully load the models!")
 
               this.faceUtils.setFDBLoadStatusToDefault();
-
+              // AppStorage.setOrCreate('modelLoaded', true)
               console.log("The loadStatus is changed to: " + this.faceUtils.checkModelLoadStatus())
             }
 
@@ -128,7 +130,7 @@ struct FaceRegisterPage {
 
               isRegistered = false; // set the register status to default after registration
 
-              this.fileUtils.deleteTmpFile(imgPath)
+              // this.fileUtils.deleteTmpFile(imgPath)
               console.log("Register finished")
 
             }

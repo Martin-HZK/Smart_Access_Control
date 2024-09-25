@@ -63,7 +63,7 @@ struct Index {
         .onClick(() => {
           console.info('Success in clicking')
           // router.pushUrl({url: 'pages/CameraPage'}).then(() => {
-          router.pushUrl({url: 'pages/TakePicPage'}).then(() =>{
+          router.pushUrl({url: 'pages/FaceRegisterPage'}).then(() =>{
             console.info('Jump success')
           }).catch((err:BusinessError)=>{
             console.log('Error code ${err.code}, Error message: ${err.message}')
@@ -88,7 +88,7 @@ struct Index {
         .onClick(() => {
           console.info('Success in clicking')
           // router.pushUrl({url: 'pages/CameraPage'}).then(() => {
-          router.pushUrl({url: 'pages/FaceRecognize'}).then(() =>{
+          router.pushUrl({url: 'pages/FaceRecognizePage'}).then(() =>{
             console.info('Jump success')
           }).catch((err:BusinessError)=>{
             console.log('Error code ${err.code}, Error message: ${err.message}')

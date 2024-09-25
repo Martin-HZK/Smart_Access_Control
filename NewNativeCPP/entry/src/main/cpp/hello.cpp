@@ -10,9 +10,15 @@
 #include "seeta/FaceLandmarker.h"
 #include "seeta/QualityAssessor.h"
 #include <rawfile/raw_file.h>
+#include <unistd.h>
 #include <vector>
 #include <string>
 #include "Struct_cv.h"
+#include <pthread.h>
+#include <thread>
+#include <mutex>
+// #include <sched.h>
+#include <chrono>
 using namespace cv;
 using namespace std;
 
@@ -22,7 +28,7 @@ using namespace std;
 #define LOG_TAG "NAPI_TAG"
 #define MIN_FACE_SIZE 80
 // set the running platform
-seeta::ModelSetting::Device device = seeta::ModelSetting::CPU;
+seeta::ModelSetting::Device device = seeta::ModelSetting::GPU;
 int id = 0;
 
 
@@ -32,7 +38,7 @@ static std::unique_ptr<seeta::FaceDatabase> FDB;
 
 
 static bool testStatus = false; // this is the argument used for testing the functionality of the async works
-
+static std::vector<std::thread> threads;
 /**
  * This is the test method on the functionality of Native API
  * @param env
@@ -40,6 +46,11 @@ static bool testStatus = false; // this is the argument used for testing the fun
  * @return Add result
  */
 static napi_value Add(napi_env env, napi_callback_info info) {
+    
+    int numCores = sysconf(_SC_NPROCESSORS_ONLN);
+    
+    OH_LOG_INFO(LOG_APP, "The number of cores is: %{public}d", numCores);
+    
     size_t requireArgc = 2;
     size_t argc = 2;
     napi_value args[2] = {nullptr};
@@ -492,9 +503,12 @@ static napi_value FaceRegisterMethod(napi_env env, napi_callback_info info) {
     std::string filePath(str);
     napi_value ret;
     int64_t id = -1;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    
     try {
         OH_LOG_INFO(LOG_APP, "Start registering faces...");
-
+        
         id = RegisterFace(filePath, *FD, *PD, *FDB);
         OH_LOG_INFO(LOG_APP, "Successfully registered!The face id is: %{public}d.", id);
     } catch (const std::exception &e) {
@@ -503,6 +517,12 @@ static napi_value FaceRegisterMethod(napi_env env, napi_callback_info info) {
 
         return ret;
     }
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    auto duration = duration_cast<std::chrono::microseconds>(stop - start);
+    float duration_count = duration.count();
+    
+    OH_LOG_INFO(LOG_APP, "The time duration is: %{public}f", duration_count);
 
     if(id == -1) {
         napi_get_boolean(env, false, &ret);

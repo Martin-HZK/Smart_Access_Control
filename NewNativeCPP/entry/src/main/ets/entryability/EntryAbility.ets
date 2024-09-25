@@ -51,6 +51,7 @@ export default class EntryAbility extends UIAbility {
   onWindowStageDestroy(): void {
     // Main window is destroyed, release UI related resources
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
+    AppStorage.setOrCreate('modelLoaded', false)
   }
 
   onForeground(): void {
